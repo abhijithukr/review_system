@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enquire — HostelHub</title>
+<meta name="description" content="Have questions about student hostels near CET? Browse our comprehensive list of enquiry questions categorized by Fees, Facilities, and Rules.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ══════════ CORE STYLES & VARIABLE TOKENS ══════════ */
+:root {
+  /* Accent hues for interactive cards */
+  --accent-fees: #10b981;
+  --accent-fees-bg: #ecfdf5;
+  --accent-facs: #4f46e5;
+  --accent-facs-bg: #e0e7ff;
+  --accent-rules: #f97316;
+  --accent-rules-bg: #fff7ed;
+  
+  /* Hero decorations */
+  --lavender: #e8e8f8;
+  --beige: #f7f2ea;
+  --blue: #e0f2fe;
+  --sage: #ecfdf5;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Satoshi',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background-color: #fafafa;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: var(--g9);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-color: #fafafa;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  /* ... existing styles ... */
+}
+
+/* ══════════ PAGE HERO ══════════ */
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f7f9 100%);
+  border-bottom: 1px solid var(--ge);
+}
+.dec-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.dec-shape--lavender { background: var(--lavender); }
+.dec-shape--beige { background: var(--beige); }
+.dec-shape--blue { background: var(--blue); }
+.dec-shape--sage { background: var(--sage); }
+.scribble-svg {
+  position: absolute;
+  pointer-events: none;
+}
+.scribble-path {
+  stroke: var(--gc);
+  stroke-dasharray: 8;
+  animation: scribbleDraw 10s linear infinite;
+}
+@keyframes scribbleDraw {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 100; }
+}
+
+/* ══════════ ENQUIRE CONTENT WRAP ══════════ */
+.enquire-wrap {
+  position: relative;
+  z-index: 5;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 2.5rem var(--px) 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 3.5rem;
+}
+@media(max-width: 960px) {
+  .enquire-wrap {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem var(--px) 5rem;
+  }
+}
+/* ══════════ QUESTION CARDS ══════════ */
+.q-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.q-card {
+  background: var(--white);
+  border: 1px solid var(--ge);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.02);
+  transition: box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(24px);
+}
+.q-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.q-card:hover {
+  box-shadow: 0 12px 36px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+  border-color: var(--gc);
+}
+/* Header Action */
+.q-card__header {
+  padding: 2.2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: var(--white);
+  user-select: none;
+  gap: 1.5rem;
+  transition: background-color 0.2s;
+}
+.q-card__header:hover {
+  background: #fafafb;
+}
+.q-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.q-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.q-card:hover .q-card__icon {
+  transform: scale(1.06);
+}
+/* Specific Card Themes */
+#card-fees .q-card__icon { background: var(--accent-fees-bg); color: var(--accent-fees); }
+#card-facilities .q-card__icon { background: var(--accent-facs-bg); color: var(--accent-facs); }
+#card-rules .q-card__icon { background: var(--accent-rules-bg); color: var(--accent-rules); }
+.q-card__icon svg {
+  width: 22px;
+  height: 22px;
+}
+.q-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.q-card__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--black);
+}
+.q-card__subtitle {
+  font-size: 13px;
+  color: var(--g6);
+  line-height: 1.4;
+}
+.q-card__control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.q-card__badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--gf3);
+  color: var(--g6);
+  padding: 5px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+.q-card__chevron {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--ge);
+  display: grid;
+  place-items: center;
+  color: var(--g6);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), background-color 0.2s, border-color 0.2s;
+}
+.q-card.expanded .q-card__chevron {
+  transform: rotate(180deg);
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+/* Expandable Area Container */
+.q-card__content-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.q-card.expanded .q-card__content-wrap {
+  grid-template-rows: 1fr;
+}
+.q-card__content {
+  overflow: hidden;
+}
+.q-card__inner {
+  padding: 0 2.5rem 2.5rem;
+  border-top: 1px solid var(--ge);
+}
+/* Card Search Filter */
+.q-card__search-wrap {
+  position: relative;
+  margin: 1.5rem 0 1.25rem;
+}
+.q-card__search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gc);
+  pointer-events: none;
+}
+.q-card__search-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.q-card__search-input {
+  width: 100%;
+  padding: 12px 1rem 12px 2.75rem;
+  border: 1.5px solid var(--ge);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--black);
+  background: var(--gf3);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.q-card__search-input::placeholder {
+  color: var(--gc);
+}
+.q-card__search-input:focus {
+  border-color: var(--black);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+/* Question List Layout */
+.q-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+/* Custom Scrollbar for list */
+.q-list::-webkit-scrollbar {
+  width: 5px;
+}
+.q-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.q-list::-webkit-scrollbar-thumb {
+  background: var(--ge);
+  border-radius: 10px;
+}
+.q-list::-webkit-scrollbar-thumb:hover {
+  background: var(--gc);
+}
+.q-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.1rem 1.25rem;
+  background: var(--gf3);
+  border: 1px solid transparent;
+  border-radius: 14px;
+  gap: 1rem;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+  position: relative;
+  cursor: default;
+}
+.q-item:hover {
+  background: var(--white);
+  border-color: var(--ge);
+  transform: translateX(4px);
+}
+.q-item__num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gc);
+  padding-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.q-item__text {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--g9);
+  font-weight: 500;
+  padding-right: 2.2rem;
+  flex: 1;
+}
+.q-item__action {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%) scale(0.9);
+  opacity: 0;
+  background: var(--white);
+  border: 1px solid var(--ge);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--g6);
+  transition: opacity 0.2s, transform 0.2s, background-color 0.2s, color 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.q-item:hover .q-item__action {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+.q-item__action:hover {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+.q-item__action svg {
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+/* Card Actions Footer */
+.q-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--ge);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.q-card__actions-label {
+  font-size: 12.5px;
+  color: var(--g6);
+}
+.q-card__actions-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid var(--ge);
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.q-card__actions-btn:hover {
+  background: var(--gf3);
+  border-color: var(--gc);
+}
+.q-card__actions-btn svg {
+  width: 14px;
+  height: 14px;
+}
+/* Empty State search */
+.q-list__empty {
+  display: none;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--g6);
+  font-size: 13.5px;
+}
+/* ── Side info ── */
+.enquire-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.enq-info-card {
+  background: var(--white);
+  border: 1px solid var(--ge);
+  border-radius: 20px;
+  padding: 1.6rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+.enq-info-card__title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: .6rem;
+}
+.enq-info-card__body {
+  font-size: 13px;
+  color: var(--g6);
+  line-height: 1.65;
+}
+.enq-info-card__body a {
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--gc);
+  transition: border-color 0.2s;
+}
+.enq-info-card__body a:hover {
+  border-color: var(--black);
+}
+.enq-response-time {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--gf3);
+  border: 1px solid var(--ge);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  font-size: 13px;
+  color: var(--g6);
+}
+.enq-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34,197,94,.15);
+  flex-shrink: 0;
+  animation: pulseGreen 2s infinite;
+}
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0px rgba(34,197,94,.4); }
+  70% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0px rgba(34,197,94,0); }
+}
+@media(max-width: 640px) {
+  .q-card__header { padding: 1.5rem 1.25rem; }
+  .q-card__inner { padding: 0 1.25rem 1.75rem; }
+  .q-item { padding: 0.9rem 1rem; }
+}
+/* Toast Notification for copying */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px);
+  background: var(--black);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+  z-index: 1000;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+
+/* ==========================================
+   CLEAN MOBILE ENQUIRE LAYOUT
+========================================== */
+
+@media (max-width:768px){
+
+  /* Main page spacing */
+  .enquire-wrap{
+    padding:1.25rem 1rem 4rem;
+    gap:1.5rem;
+  }
+
+  /* Hide right sidebar on phones */
+  .enquire-side{
+    display:none;
+  }
+
+  /* Card container */
+  .q-cards-container{
+    gap:1rem;
+  }
+
+  /* Main cards */
+  .q-card{
+    border-radius:18px;
+  }
+
+  /* Card header */
+  .q-card__header{
+    padding:1rem;
+    gap:.75rem;
+    align-items:flex-start;
+  }
+
+  .q-card__meta{
+    gap:.8rem;
+    flex:1;
+    min-width:0;
+  }
+
+  .q-card__icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    flex-shrink:0;
+  }
+
+  /* Card title */
+  .q-card__title{
+    font-size:1rem;
+    line-height:1.3;
+  }
+
+  /* Subtitle */
+  .q-card__subtitle{
+    font-size:12px;
+    font-weight: 600;
+    line-height:1.5;
+  }
+
+  /* Question count badge */
+  .q-card__badge{
+    display:none;
+  }
+
+  /* Expanded content */
+  .q-card__inner{
+    padding:0 1rem 1rem;
+  }
+
+  /* Search box */
+  .q-card__search-input{
+    font-size:14px;
+  }
+
+  /* Question cards */
+  .q-item{
+    padding:.9rem;
+    gap:.75rem;
+    border-radius:12px;
+  }
+
+  .q-item__num{
+    font-size:11px;
+  }
+
+  .q-item__text{
+    font-size:13px;
+    line-height:1.55;
+    padding-right:0;
+  }
+
+  /* Always show copy button on mobile */
+  .q-item__action{
+    opacity:1;
+    position:static;
+    transform:none;
+    flex-shrink:0;
+  }
+
+  /* Footer actions */
+  .q-card__actions{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .q-card__actions-btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  /* Hero */
+  .page-hero__inner{
+    padding:3rem 1rem 2rem;
+  }
+
+  .page-hero__h1{
+    font-size:2rem;
+    line-height:1.1;
+  }
+
+  .page-hero__sub{
+    font-size:14px;
+    line-height:1.7;
+  }
+
+}
+
+/*MOBILE RESPONSIVE NAVBAR*/
+@media (max-width: 768px) {
+  /* Hide the desktop horizontal link styling and configure the vertical drawer */
+  .nav__links {
+    display: flex;
+    flex-direction: column; /* Stack links vertically */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen to the right by default */
+    width: 280px; /* Drawer width */
+    height: 100vh; /* Full viewport height */
+    background: #ffffff; /* Solid white background for drawer */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05); /* Soft shadow on the left edge */
+    padding: 6rem 2.5rem; /* Space at the top so the close button is clear */
+    gap: 1.8rem; /* Vertical space between each link */
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth slide animation */
+    z-index: 105;
+  }
+
+  /* When the JavaScript adds the "open" class, slide it into view */
+  .nav__links.open {
+    right: 0;
+  }
+
+  /* Style the links inside the mobile drawer */
+  .nav__links li {
+    list-style: none;
+    width: 100%;
+  }
+
+  .nav__links a {
+    display: block;
+    font-size: 18px; /* Slightly larger text for easy tapping on mobile */
+    font-weight: 600;
+    color: #71717a; /* Muted grey */
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f5; /* Subtle separation line */
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  /* Hover and active states for links inside the drawer */
+  .nav__links a:hover,
+  .nav__links a.active {
+    color: #0d0d0d; /* Black */
+    padding-left: 6px; /* Tiny slide-in effect on hover */
+  }
+
+  /* Ensure the hamburger button stays on top of the menu */
+  .nav__ham {
+    display: flex;
+    position: relative;
+    z-index: 110;
+  }
+}
+
+
+
+</style>
+</head>
+<body class="enquiry-page">
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="hosteltxt.html">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/></svg>
+      </div>
+      <span class="nav__logo-name">HostelHub</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="hosteltxt.html">Home</a></li>
+      <li><a href="browse.html">Browse Hostels</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="enquire.html"class="active">Enquire</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+    </ul>
+    <button class="nav__ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<!-- ══════════ PAGE HERO ══════════ -->
+<div class="page-hero" style="position:relative; overflow:hidden;">
+  <!-- Pastel shapes behind hero -->
+  <div class="dec-shape dec-shape--lavender" style="top:-20px; right:-20px; width:220px; height:220px; opacity:0.6;"></div>
+  <div class="dec-shape dec-shape--beige" style="bottom:-30px; left:10%; width:200px; height:200px; opacity:0.5;"></div>
+
+  <div class="page-hero__inner" style="position:relative; z-index:2;">
+    <p class="page-hero__label">Support</p>
+    <h1 class="page-hero__h1">Enquiry Guide
+What to Ask Hostels.</h1>
+    <p class="page-hero__sub">Planning to contact a student hostel? We've compiled the most critical questions to ask owners regarding payments, facilities, and curfew rules to help you make an informed decision.</p>
+  </div>
+</div>
+
+<!-- ══════════ ENQUIRE CONTENT ══════════ -->
+<div class="enquire-wrap">
+  <!-- Background shapes -->
+  <div class="dec-shape dec-shape--blue" style="top:10%;right:-5%;width:260px;height:260px;opacity:0.35;z-index:1;"></div>
+  <div class="dec-shape dec-shape--sage" style="bottom:10%;left:-5%;width:240px;height:240px;opacity:0.35;z-index:1;"></div>
+  <!-- Left Side: Interactive Enquiry Question Cards -->
+  <div class="q-cards-container">
+    
+    <!-- ── CARD 1: Fees & Payments ── -->
+    <div class="q-card reveal" id="card-fees">
+      <div class="q-card__header" onclick="toggleCard(this)">
+        <div class="q-card__meta">
+          <div class="q-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <div class="q-card__text">
+            <div class="q-card__title">Fees & Payments</div>
+            <div class="q-card__subtitle">Questions about deposits, water/electricity, and refunds</div>
+          </div>
+        </div>
+        <div class="q-card__control">
+          <span class="q-card__badge">9 Questions</span>
+          <div class="q-card__chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <div class="q-card__content-wrap">
+        <div class="q-card__content">
+          <div class="q-card__inner">
+            <div class="q-card__search-wrap">
+              <span class="q-card__search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" class="q-card__search-input" placeholder="Search Fees & Payments questions..." oninput="filterQuestions(this)">
+            </div>
+            
+            <div class="q-list">
+              <div class="q-item">
+                <span class="q-item__num">01</span>
+                <p class="q-item__text">What is the monthly hostel fee?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">02</span>
+                <p class="q-item__text">Is there a caution/security deposit?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">03</span>
+                <p class="q-item__text">How much is the caution deposit?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">04</span>
+                <p class="q-item__text">Will the caution deposit be returned after one academic year or 365 days?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">05</span>
+                <p class="q-item__text">Under what conditions will the caution deposit be deducted?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">06</span>
+                <p class="q-item__text">Are electricity and water charges included in the fee?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">07</span>
+                <p class="q-item__text">Are there any hidden charges?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">08</span>
+                <p class="q-item__text">What is the refund policy if a student leaves the hostel early?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">09</span>
+                <p class="q-item__text">What payment methods are accepted?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-list__empty">No questions found matching your search.</div>
+            </div>
+            
+            <div class="q-card__actions">
+              <span class="q-card__actions-label">Ready to ask an owner?</span>
+              <button class="q-card__actions-btn" onclick="copyAllQuestions(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy All Questions
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ── CARD 2: Facilities & Services ── -->
+    <div class="q-card reveal" id="card-facilities">
+      <div class="q-card__header" onclick="toggleCard(this)">
+        <div class="q-card__meta">
+          <div class="q-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="q-card__text">
+            <div class="q-card__title">Facilities & Services</div>
+            <div class="q-card__subtitle">Questions about meals, Wi-Fi, laundry, and cleaning</div>
+          </div>
+        </div>
+        <div class="q-card__control">
+          <span class="q-card__badge">10 Questions</span>
+          <div class="q-card__chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <div class="q-card__content-wrap">
+        <div class="q-card__content">
+          <div class="q-card__inner">
+            <div class="q-card__search-wrap">
+              <span class="q-card__search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" class="q-card__search-input" placeholder="Search Facilities & Services questions..." oninput="filterQuestions(this)">
+            </div>
+            
+            <div class="q-list">
+              <div class="q-item">
+                <span class="q-item__num">01</span>
+                <p class="q-item__text">Is food included in the hostel fee?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">02</span>
+                <p class="q-item__text">How many meals are provided per day?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">03</span>
+                <p class="q-item__text">Is Wi-Fi available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">04</span>
+                <p class="q-item__text">Is laundry available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">05</span>
+                <p class="q-item__text">Is laundry service free or does it have an additional cost?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">06</span>
+                <p class="q-item__text">How often are rooms cleaned?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">07</span>
+                <p class="q-item__text">Are study rooms available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">08</span>
+                <p class="q-item__text">Is hot water available throughout the day?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">09</span>
+                <p class="q-item__text">Is parking available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">10</span>
+                <p class="q-item__text">Are power backup facilities available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-list__empty">No questions found matching your search.</div>
+            </div>
+            
+            <div class="q-card__actions">
+              <span class="q-card__actions-label">Ready to ask an owner?</span>
+              <button class="q-card__actions-btn" onclick="copyAllQuestions(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy All Questions
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ── CARD 3: Rules, Safety & Accommodation ── -->
+    <div class="q-card reveal" id="card-rules">
+      <div class="q-card__header" onclick="toggleCard(this)">
+        <div class="q-card__meta">
+          <div class="q-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div class="q-card__text">
+            <div class="q-card__title">Rules & Safety</div>
+            <div class="q-card__subtitle">Questions about room types, curfew, wardens, and location</div>
+          </div>
+        </div>
+        <div class="q-card__control">
+          <span class="q-card__badge">10 Questions</span>
+          <div class="q-card__chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <div class="q-card__content-wrap">
+        <div class="q-card__content">
+          <div class="q-card__inner">
+            <div class="q-card__search-wrap">
+              <span class="q-card__search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" class="q-card__search-input" placeholder="Search Rules & Safety questions..." oninput="filterQuestions(this)">
+            </div>
+            
+            <div class="q-list">
+              <div class="q-item">
+                <span class="q-item__num">01</span>
+                <p class="q-item__text">What room types are available (single/shared)?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">02</span>
+                <p class="q-item__text">How many students stay in one room?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">03</span>
+                <p class="q-item__text">What are the hostel timings and curfew rules?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">04</span>
+                <p class="q-item__text">Are visitors allowed?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">05</span>
+                <p class="q-item__text">Is 24/7 security available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">06</span>
+                <p class="q-item__text">Are CCTV cameras installed?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">07</span>
+                <p class="q-item__text">Is there a hostel warden available?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">08</span>
+                <p class="q-item__text">Are medical facilities available nearby?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">09</span>
+                <p class="q-item__text">How far is the hostel from the college?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-item">
+                <span class="q-item__num">10</span>
+                <p class="q-item__text">Is transportation available to the college?</p>
+                <button class="q-item__action" onclick="copySingleQuestion(this)" aria-label="Copy question">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+              <div class="q-list__empty">No questions found matching your search.</div>
+            </div>
+            
+            <div class="q-card__actions">
+              <span class="q-card__actions-label">Ready to ask an owner?</span>
+              <button class="q-card__actions-btn" onclick="copyAllQuestions(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy All Questions
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Side info (desktop only) -->
+  <div class="enquire-side">
+
+    <div class="enq-info-card">
+      <div class="enq-info-card__title">How to use these questions?</div>
+      <div class="enq-info-card__body">Click any category card to expand and browse the questions. Hover over any question and click the copy icon (<svg style="width:11px;height:11px;vertical-align:middle;display:inline-block;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>) to copy it directly, or click "Copy All Questions" to copy the full set for your email or message.</div>
+    </div>
+
+    <div class="enq-info-card">
+      <div class="enq-info-card__title">Direct contact</div>
+      <div class="enq-info-card__body">Need personal guidance? Reach our support team directly at <a href="mailto:contact@hostelhub.in">contact@hostelhub.in</a></div>
+    </div>
+  </div>
+</div>
+<!-- Toast Container -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  <span id="toastMsg">Question copied to clipboard!</span>
+</div>
+<script>
+// Toggle Cards (accordion functionality)
+function toggleCard(headerEl) {
+  const card = headerEl.closest('.q-card');
+  const wasExpanded = card.classList.contains('expanded');
+  
+  // Optional: Collapse all other cards (accordion style)
+  document.querySelectorAll('.q-card').forEach(c => {
+    if (c !== card) {
+      c.classList.remove('expanded');
+    }
+  });
+  // Toggle current card
+  if (wasExpanded) {
+    card.classList.remove('expanded');
+  } else {
+    card.classList.add('expanded');
+  }
+}
+// Filter questions dynamically within each card
+function filterQuestions(inputEl) {
+  const filter = inputEl.value.toLowerCase().trim();
+  const card = inputEl.closest('.q-card');
+  const items = card.querySelectorAll('.q-item');
+  const emptyState = card.querySelector('.q-list__empty');
+  let visibleCount = 0;
+  items.forEach(item => {
+    const text = item.querySelector('.q-item__text').innerText.toLowerCase();
+    if (text.includes(filter)) {
+      item.style.display = 'flex';
+      visibleCount++;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+  if (visibleCount === 0) {
+    emptyState.style.display = 'block';
+  } else {
+    emptyState.style.display = 'none';
+  }
+}
+// Show feedback Toast message
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  toastMsg.innerText = message;
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2500);
+}
+// Copy single question to clipboard
+function copySingleQuestion(buttonEl) {
+  const text = buttonEl.closest('.q-item').querySelector('.q-item__text').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Question copied to clipboard!');
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+  });
+}
+// Copy all questions in a card category
+function copyAllQuestions(buttonEl) {
+  const card = buttonEl.closest('.q-card');
+  const title = card.querySelector('.q-card__title').innerText;
+  const questions = card.querySelectorAll('.q-item');
+  
+  let textToCopy = `HostelHub Enquiry — ${title}\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+  let count = 1;
+  questions.forEach(q => {
+    // Only copy if the question is visible (matches the filter, if any)
+    if (q.style.display !== 'none') {
+      textToCopy += `${count}. ${q.querySelector('.q-item__text').innerText}\n`;
+      count++;
+    }
+  });
+  textToCopy += `━━━━━━━━━━━━━━━━━━━━━━\nGenerated via HostelHub`;
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    showToast(`All ${count - 1} questions copied to clipboard!`);
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+  });
+}
+
+// Initial entry scroll animations
+window.addEventListener('load', () => {
+  const cards = document.querySelectorAll('.q-card');
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.add('visible');
+    }, index * 120);
+  });
+  
+// No FAQ item auto-opens on page load.
+});
+  // Select the hamburger button and the links menu
+  const navHam = document.querySelector('.nav__ham');
+  const navLinks = document.querySelector('.nav__links');
+
+  if (navHam && navLinks) {
+    navHam.addEventListener('click', () => {
+      // Toggle the 'open' class on both elements when clicked
+      navHam.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  }
+</script>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">
+          <div class="footer__brand-mark"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="#0d0d0d"/></svg></div>
+          HostelHub
+        </div>
+        <p class="footer__desc">The smartest way for students to discover, compare, and choose verified hostels near their college campus.</p>
+       
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links">
+          <li><a href="browse.html">Browse Hostels</a></li>
+          <li><a href="compare.html">Compare Hostels</a></li> 
+          <li><a href="map.html">Map Explorer</a></li>
+          <li><a href="admin-login.html">Admin</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+     <div class="footer__bottom">
+      <span class="footer__copy">©2026 അതിഥി</span>
+      
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

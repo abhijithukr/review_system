@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Access Portal — HostelHub</title>
+<meta name="description" content="Secure administrative login access portal for HostelHub management database.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Satoshi',system-ui,sans-serif;}
+
+.admin-wrap{
+  position:relative;z-index:5;
+  max-width:var(--max);margin:0 auto;
+  padding:2.5rem var(--px) 3.5rem;
+  display:flex;justify-content:center;align-items:flex-start;
+  min-height:calc(100vh - var(--nav-h) - 260px);
+}
+
+/* ── Login Card ── */
+.login-card{
+  background:var(--white);
+  border:1px solid var(--ge);
+  border-radius:24px;
+  padding:3rem 2.8rem 2.8rem;
+  width:100%;max-width:460px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+  position:relative;z-index:5;
+  opacity:0;transform:translateY(28px);
+  transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.login-card.visible{opacity:1;transform:translateY(0)}
+
+.login-card__top{
+  margin-bottom:2rem;
+  padding-bottom:1.6rem;
+  border-bottom:1px solid var(--ge);
+}
+.login-card__icon{
+  width:52px;height:52px;background:var(--black);border-radius:15px;
+  display:grid;place-items:center;margin-bottom:1.2rem;
+}
+.login-card__icon svg{width:22px;height:22px}
+.login-card__title{
+  font-family:'Satoshi',sans-serif;
+  font-size:1.45rem;font-weight:700;letter-spacing:-0.4px;
+  color:var(--black);margin-bottom:.35rem;
+}
+.login-card__sub{font-size:13.5px;color:var(--g6);line-height:1.6}
+
+/* ── Form elements ── */
+.form-group{margin-bottom:1.25rem}
+.form-label{
+  display:block;font-size:12.5px;font-weight:600;
+  color:var(--g9);letter-spacing:.2px;margin-bottom:.5rem;
+}
+.form-input-wrap{position:relative}
+.form-input-icon{
+  position:absolute;left:1rem;top:50%;transform:translateY(-50%);
+  color:var(--g9);opacity:0.5;pointer-events:none;
+}
+.form-input-icon svg{width:16px;height:16px}
+.form-input{
+  width:100%;padding:.75rem 1rem .75rem 2.85rem;
+  border:1.5px solid var(--ge);border-radius:12px;
+  font-family:inherit;font-size:14px;font-weight:500;
+  color:var(--black);background:var(--gf3);
+  transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;
+  outline:none;
+}
+.form-input::placeholder{color:var(--gc);font-weight:400}
+.form-input:focus{
+  border-color:var(--black);background:var(--white);
+  box-shadow:0 0 0 3px rgba(0,0,0,0.05);
+}
+
+/* ── Login Button ── */
+.login-btn{
+  width:100%;padding:.85rem;border:none;border-radius:14px;
+  background:var(--black);color:var(--white);
+  font-family:inherit;font-size:14.5px;font-weight:700;
+  letter-spacing:.2px;cursor:pointer;
+  transition:background .18s,transform .15s,box-shadow .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:1.5rem;
+}
+.login-btn:hover{background:#222;transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.18)}
+.login-btn svg{width:16px;height:16px;transition:transform .2s}
+.login-btn:hover svg{transform:translateX(3px)}
+
+/* ── Meta row ── */
+.login-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:1.2rem;
+}
+.login-meta__hint{font-size:12px;color:var(--g6);line-height:1.5}
+.login-meta__link{
+  font-size:12px;font-weight:600;color:var(--g9);
+  text-decoration:none;border-bottom:1px dashed var(--gc);
+  transition:color .18s,border-color .18s;
+}
+.login-meta__link:hover{color:var(--black);border-color:var(--black)}
+
+/* ── Security badge ── */
+.security-badge{
+  display:flex;align-items:center;gap:.5rem;
+  margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--ge);
+  font-size:11.5px;color:var(--g6);
+}
+.security-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 0 2px rgba(34,197,94,.2);flex-shrink:0}
+
+/* ── Side info panel ── */
+.login-side{
+  display:none;
+  flex-direction:column;
+  gap:1.5rem;
+  max-width:360px;
+  width:100%;
+}
+
+.admin-info-card{
+  background:#ffffff;
+  border:1px solid var(--ge);
+  border-radius:20px;
+  padding:1.6rem;
+  box-shadow:0 4px 20px rgba(0,0,0,.01);
+}
+
+.admin-info-card__title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--black);
+  margin-bottom:.6rem;
+}
+
+.admin-info-card__body{
+  font-size:13px;
+  color:var(--g6);
+  line-height:1.7;
+}
+
+@media(min-width:900px){
+  .admin-wrap{gap:4rem;align-items:center}
+  .login-side{display:flex}
+}
+@media(max-width:640px){
+  .login-card{padding:2.2rem 1.6rem 2rem}
+  .admin-wrap{padding:2rem var(--px) 5rem}
+}
+/* Styling for mobile screens (under 768px width) */
+@media (max-width: 768px) {
+  .nav__ham {
+    display: flex; /* Show the 3 bars */
+  }
+  
+  .nav__links {
+    position: fixed;
+    top: 0;
+    right:320px; /* Hidden off-screen to the right by default */
+    width: 280px;
+    height: 100vh;
+    background: #ffffff; /* Or var(--white) */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    padding: 6rem 2.5rem;
+    gap: 1.5rem;
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 105;
+  }
+
+  /* When the 'open' class is added via JavaScript, slide the menu in */
+  .nav__links.open {
+    right: 0;
+  }
+
+  /* Animate the 3 bars into an 'X' shape when open */
+  .nav__ham.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav__ham.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav__ham.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+/* ══════════ MOBILE RESPONSIVE NAV ══════════ */
+@media (max-width: 768px) {
+  /* Hide the desktop horizontal link styling and configure the vertical drawer */
+  .nav__links {
+    display: flex;
+    flex-direction: column; /* Stack links vertically */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen to the right by default */
+    width: 280px; /* Drawer width */
+    height: 100vh; /* Full viewport height */
+    background: #ffffff; /* Solid white background for drawer */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05); /* Soft shadow on the left edge */
+    padding: 6rem 2.5rem; /* Space at the top so the close button is clear */
+    gap: 1.8rem; /* Vertical space between each link */
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth slide animation */
+    z-index: 105;
+  }
+
+  /* When the JavaScript adds the "open" class, slide it into view */
+  .nav__links.open {
+    right: 0;
+  }
+
+  /* Style the links inside the mobile drawer */
+  .nav__links li {
+    list-style: none;
+    width: 100%;
+  }
+
+  .nav__links a {
+    display: block;
+    font-size: 18px; /* Slightly larger text for easy tapping on mobile */
+    font-weight: 600;
+    color: #71717a; /* Muted grey */
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f5; /* Subtle separation line */
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  /* Hover and active states for links inside the drawer */
+  .nav__links a:hover,
+  .nav__links a.active {
+    color: #0d0d0d; /* Black */
+    padding-left: 6px; /* Tiny slide-in effect on hover */
+  }
+
+  /* Ensure the hamburger button stays on top of the menu */
+  .nav__ham {
+    display: flex;
+    position: relative;
+    z-index: 110;
+  }
+}
+</style>
+</head>
+<script>
+fetch("navbar.html")
+  .then(response => response.text())
+  .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+
+      const navHam = document.querySelector('.nav__ham');
+      const navLinks = document.querySelector('.nav__links');
+
+      if (navHam && navLinks) {
+          navHam.addEventListener('click', () => {
+              navHam.classList.toggle('open');
+              navLinks.classList.toggle('open');
+          });
+      }
+  });
+</script>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="hosteltxt.html">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 18 18" fill="none">
+          <path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/>
+        </svg>
+      </div>
+      <span class="nav__logo-name">HostelHub</span>
+    </a>
+
+    <ul class="nav__links">
+      <li><a href="hosteltxt.html">Home</a></li>
+      <li><a href="browse.html">Browse Hostels</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="enquire.html">Enquire</a></li>
+      <li><a href="admin-login.html"class="active">Admin</a></li>
+    </ul>
+
+    <button class="nav__ham" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════ PAGE HERO ══════════ -->
+<div class="page-hero" style="position:relative;overflow:hidden;">
+  <div class="dec-shape dec-shape--sage" style="top:-20px;right:-20px;width:220px;height:220px;opacity:0.55;"></div>
+  <div class="dec-shape dec-shape--lavender" style="bottom:-30px;left:10%;width:200px;height:200px;opacity:0.45;"></div>
+  <svg class="scribble-svg" style="bottom:10%;right:6%;width:200px;height:70px;opacity:0.6" viewBox="0 0 200 70">
+    <path class="scribble-path accent-sage" d="M10,15 Q100,65 190,20" />
+  </svg>
+  <div class="page-hero__inner" style="position:relative;z-index:2;">
+    <p class="page-hero__label">Administration</p>
+    <h1 class="page-hero__h1">Secure Access Portal</h1>
+    <p class="page-hero__sub">HostelHub administration is restricted to authorized personnel only. Sign in with your credentials to manage hostel listings, review enquiries, and maintain the platform.</p>
+  </div>
+</div>
+
+<!-- ══════════ LOGIN CONTENT ══════════ -->
+<div class="admin-wrap">
+
+  <!-- Decorative background shapes -->
+  <div class="dec-shape dec-shape--beige" style="top:10%;right:-5%;width:260px;height:260px;opacity:0.35;z-index:1;"></div>
+  <div class="dec-shape dec-shape--blue" style="bottom:10%;left:-5%;width:240px;height:240px;opacity:0.35;z-index:1;"></div>
+
+  <!-- Side info (visible on desktop) -->
+  <div class="login-side">
+
+  <div class="admin-info-card">
+    <div class="admin-info-card__title">
+      Secured Access
+    </div>
+    <div class="admin-info-card__body">
+      All admin sessions are protected. Only verified personnel can access the management dashboard.
+    </div>
+  </div>
+
+  <div class="admin-info-card">
+    <div class="admin-info-card__title">
+      Manage Listings
+    </div>
+    <div class="admin-info-card__body">
+      Add, edit or remove hostel listings. Update pricing, availability and amenity details.
+    </div>
+  </div>
+
+  <div class="admin-info-card">
+    <div class="admin-info-card__title">
+      Review Enquiries
+    </div>
+    <div class="admin-info-card__body">
+      Monitor student enquiries, respond to messages and manage contact requests.
+    </div>
+  </div>
+
+</div>
+
+  <!-- Login card -->
+  <div class="login-card reveal">
+    <div class="login-card__top">
+      <div class="login-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+      </div>
+      <div class="login-card__title">Admin Sign In</div>
+      <div class="login-card__sub">HostelHub Management Portal. Authorized personnel only.</div>
+    </div>
+
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="username">Username or Email</label>
+        <div class="form-input-wrap">
+          <span class="form-input-icon">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18c0-4.418 3.582-8 8-8s8 3.582 8 8"/></svg>
+          </span>
+          <input type="text" class="form-input" id="username" required placeholder="admin_user or email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="form-input-wrap">
+          <span class="form-input-icon">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="9" width="14" height="10" rx="2"/><path d="M7 9V7a3 3 0 016 0v2"/></svg>
+          </span>
+          <input type="password" class="form-input" id="password" required placeholder="Enter your password">
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn">
+        Sign In to Dashboard
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="login-meta">
+        <span class="login-meta__hint">Forgot your credentials?</span>
+        <a href="#" class="login-meta__link" onclick="forgotPassword(event)">Request Reset</a>
+      </div>
+
+      <div class="security-badge">
+        <div class="security-dot"></div>
+        <span>Secure connection · HostelHub Administration System · Authorized access only</span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">
+          <div class="footer__brand-mark"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="#0d0d0d"/></svg></div>
+          HostelHub
+        </div>
+        <p class="footer__desc">The smartest way for students to discover, compare, and choose verified hostels near their college campus.</p>
+        
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links">
+          <li><a href="browse.html">Browse Hostels</a></li>
+          <li><a href="compare.html">Compare Hostels</a></li>
+            <li><a href="map.html">Map Explorer</a></li>
+           <li><a href="enquire.html">Enquire</a></li>
+          
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">©2026 അതിഥി</span>
+      
+    </div>
+  </div>
+</footer>
+
+
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const user = document.getElementById('username').value;
+  const btn = e.target.querySelector('.login-btn');
+  btn.textContent = 'Authenticating...';
+  btn.style.opacity = '0.7';
+  setTimeout(() => {
+    btn.textContent = 'Sign In to Dashboard';
+    btn.style.opacity = '1';
+    alert(`Access Denied: The admin backend system is not connected yet.\n\nLogin attempt recorded for: "${user}"\n\nContact the system administrator at admin@hostelhub.in for access.`);
+  }, 1200);
+}
+
+function forgotPassword(e) {
+  e.preventDefault();
+  alert("Password Reset\n\nPlease contact the system administrator at admin@hostelhub.in to request a password reset link. Include your registered username in the email.");
+}
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+if(revealEls.length){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+  },{threshold:0.1});
+  revealEls.forEach(el => io.observe(el));
+}
+// Immediate reveal for above-fold
+window.addEventListener('load', () => {
+  document.querySelectorAll('.login-card').forEach(el => el.classList.add('visible'));
+});
+  // Select the hamburger button and the links menu
+  const navHam = document.querySelector('.nav__ham');
+  const navLinks = document.querySelector('.nav__links');
+
+  if (navHam && navLinks) {
+    navHam.addEventListener('click', () => {
+      // Toggle the 'open' class on both elements when clicked
+      navHam.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  }
+</script>
+
+</body>
+</html>

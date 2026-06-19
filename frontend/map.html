@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map Explorer — HostelHub</title>
+<meta name="description" content="Explore hostel locations around CET on the HostelHub Map Explorer. Visualize distances and neighborhoods at a glance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ════ MAP PAGE SPECIFIC ════ */
+.map-page{
+  position:relative;z-index:5;
+  max-width:var(--max);margin:0 auto;
+  padding:2.5rem var(--px) 5rem;
+  display:flex;flex-direction:column;gap:2rem;
+}
+
+/* Info bar above map */
+.map-info-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  flex-wrap:wrap;position:relative;z-index:2;
+}
+.map-meta{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.map-meta-chip{
+  display:flex;align-items:center;gap:.6rem;
+  background:var(--gf7);border:1px solid var(--ge);
+  border-radius:20px;padding:.4rem .9rem;
+  font-size:12.5px;font-weight:500;color:var(--g6);
+}
+.map-meta-chip strong{color:var(--black);font-weight:700}
+.map-meta-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+.map-meta-dot--green{background:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.2)}
+.map-meta-dot--amber{background:#f59e0b;box-shadow:0 0 0 2px rgba(245,158,11,.2)}
+
+/* Filter chips for map */
+.map-filter-chips{display:flex;gap:.5rem;flex-wrap:wrap}
+.map-chip{
+  font-size:12px;font-weight:600;padding:.35rem .85rem;
+  border-radius:20px;border:1.5px solid var(--ge);
+  background:var(--white);color:var(--g6);cursor:pointer;
+  transition:border-color .18s,background .18s,color .18s;
+  font-family:inherit;
+}
+.map-chip:hover{border-color:var(--gc);color:var(--black);background:var(--gf3)}
+.map-chip.active{border-color:var(--black);background:var(--black);color:var(--white)}
+
+/* ── MAP CONTAINER ── */
+.map-container{
+  background:var(--gf7);
+  border:1px solid var(--ge);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:var(--shadow-lg);
+  position:relative;
+  min-height:520px;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Map placeholder */
+.map-placeholder{
+  flex:1;
+  position:relative;
+  background:linear-gradient(145deg,#f0eeea 0%,#e8e6e0 100%);
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  min-height:520px;
+}
+
+/* Grid overlay suggesting map tiles */
+.map-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+/* Road-like lines */
+.map-road{
+  position:absolute;background:rgba(255,255,255,0.65);
+}
+.map-road.h{left:0;right:0;height:10px;border-radius:0}
+.map-road.v{top:0;bottom:0;width:10px}
+.map-road.h-sm{height:4px;background:rgba(255,255,255,.4)}
+.map-road.v-sm{width:4px;background:rgba(255,255,255,.4)}
+
+/* Green patch */
+.map-green{
+  position:absolute;border-radius:50%;
+  background:rgba(134,199,119,0.35);
+}
+
+/* Water */
+.map-water{
+  position:absolute;border-radius:30px;
+  background:rgba(147,197,220,0.45);
+}
+
+/* CET building */
+.map-cet-pin{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;
+}
+.map-cet-block{
+  background:var(--black);
+  border-radius:12px;
+  padding:.6rem 1.1rem;
+  display:flex;flex-direction:column;align-items:center;gap:.15rem;
+  box-shadow:0 8px 24px rgba(0,0,0,0.25);
+}
+.map-cet-label{font-size:12px;font-weight:800;color:var(--white);letter-spacing:-.5px}
+.map-cet-sub{font-size:9px;color:rgba(255,255,255,.65);font-weight:500}
+.map-cet-tail{
+  width:2px;height:12px;background:var(--black);border-radius:2px;
+}
+
+/* Distance rings */
+.map-ring{
+  position:absolute;border-radius:50%;
+  border:1px dashed rgba(0,0,0,0.12);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+
+/* Hostel pin */
+.map-hostel-pin{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  z-index:8;
+}
+.map-hostel-bubble{
+  background:var(--white);border:1.5px solid var(--ge);
+  border-radius:30px;padding:.35rem .85rem .35rem .55rem;
+  box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:.45rem;
+  cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;
+  white-space:nowrap;
+}
+.map-hostel-bubble:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:var(--shadow-lg);border-color:var(--black);
+}
+.map-hostel-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--black);flex-shrink:0;
+}
+.map-hostel-name{font-size:11px;font-weight:700;color:var(--black)}
+.map-hostel-dist{font-size:10px;color:var(--g9)}
+
+/* Legend */
+.map-legend{
+  position:absolute;bottom:1.2rem;left:1.2rem;z-index:20;
+  background:rgba(255,255,255,0.95);border:1px solid var(--ge);
+  border-radius:12px;padding:.8rem 1rem;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:.5rem;
+  backdrop-filter:blur(8px);
+}
+.map-legend-item{display:flex;align-items:center;gap:.5rem;font-size:11.5px;color:var(--g4);font-weight:500}
+.map-legend-icon{
+  width:20px;height:20px;border-radius:5px;background:var(--black);
+  flex-shrink:0;display:grid;place-items:center;
+}
+.map-legend-icon.hostel{background:var(--white);border:1.5px solid var(--ge)}
+.map-legend-icon .dot{width:7px;height:7px;border-radius:50%;background:var(--black)}
+.map-legend-line{width:20px;height:1px;border-top:1px dashed rgba(0,0,0,.18);flex-shrink:0}
+
+/* Compass */
+.map-compass{
+  position:absolute;bottom:1.2rem;right:1.2rem;z-index:20;
+  background:rgba(255,255,255,.95);border:1px solid var(--ge);
+  border-radius:50%;width:48px;height:48px;
+  display:grid;place-items:center;
+  box-shadow:var(--shadow);backdrop-filter:blur(8px);
+  font-size:12px;font-weight:800;color:var(--black);
+}
+
+/* Coming soon overlay */
+.map-coming-soon{
+  position:absolute;inset:0;z-index:30;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.0);
+  pointer-events:none;
+}
+.map-coming-soon-badge{
+  background:rgba(255,255,255,0.96);border:1px solid var(--ge);
+  border-radius:16px;padding:1.2rem 1.8rem;
+  box-shadow:var(--shadow-lg);
+  display:flex;align-items:center;gap:.85rem;
+  backdrop-filter:blur(12px);
+  pointer-events:auto;
+}
+.map-coming-soon-icon{
+  width:40px;height:40px;background:var(--gf3);border:1px solid var(--ge);
+  border-radius:10px;display:grid;place-items:center;flex-shrink:0;
+}
+.map-coming-soon-icon svg{width:20px;height:20px;opacity:.5}
+.map-coming-soon-text{display:flex;flex-direction:column;gap:.2rem}
+.map-coming-soon-title{font-size:14px;font-weight:700;color:var(--black)}
+.map-coming-soon-sub{font-size:12px;color:var(--g6)}
+
+/* Bottom info strip */
+.map-bottom{
+  padding:1.2rem 1.6rem;
+  border-top:1px solid var(--ge);
+  background:var(--white);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;
+}
+.map-bottom-info{font-size:12.5px;color:var(--g6);display:flex;align-items:center;gap:.5rem}
+.map-bottom-info strong{color:var(--black);font-weight:700}
+.map-bottom-cet{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:12px;color:var(--g9);
+}
+.map-bottom-cet-coord{
+  font-size:11px;font-family:monospace;
+  background:var(--gf3);border:1px solid var(--ge);
+  border-radius:6px;padding:.2rem .5rem;color:var(--g6);
+}
+
+/* Nearby info strip */
+.nearby-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;
+  position:relative;z-index:2;
+}
+.nearby-card{
+  background:var(--white);border:1px solid var(--ge);
+  border-radius:var(--radius);padding:1.3rem 1.4rem;
+  transition:transform .22s,box-shadow .22s;
+}
+.nearby-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.nearby-card__header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.6rem;
+}
+.nearby-card__title{font-size:14px;font-weight:700;letter-spacing:-.3px}
+.nearby-card__badge{
+  font-size:11px;font-weight:600;padding:.2rem .55rem;
+  border-radius:20px;background:var(--gf3);border:1px solid var(--ge);color:var(--g6);
+}
+.nearby-card__dist{font-size:13px;color:var(--g6);margin-bottom:.5rem}
+.nearby-card__tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.nearby-tag{
+  font-size:10.5px;font-weight:500;background:var(--gf3);border:1px solid var(--ge);
+  color:var(--g6);padding:.18rem .5rem;border-radius:20px;
+}
+
+/* Section heading */
+.section-mini-label{
+  font-size:11px;font-weight:700;letter-spacing:2.5px;color:var(--g9);
+  text-transform:uppercase;display:flex;align-items:center;gap:8px;
+  margin-bottom:1rem;
+}
+.section-mini-label::before{
+  content:'';display:block;width:18px;height:1.5px;
+  background:var(--gc);border-radius:2px;
+}
+
+/* Responsive */
+@media(max-width:860px){
+  .map-placeholder{min-height:380px}
+  .nearby-strip{grid-template-columns:1fr 1fr}
+  .map-info-bar{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  .map-page{padding:1.5rem var(--px) 4rem}
+  .map-placeholder{min-height:300px}
+  .nearby-strip{grid-template-columns:1fr}
+  .map-hostel-bubble{display:none}
+  .map-meta{gap:.6rem}
+}
+/* Styling for mobile screens (under 768px width) */
+@media (max-width: 768px) {
+  .nav__ham {
+    display: flex; /* Show the 3 bars */
+  }
+  
+  .nav__links {
+    position: fixed;
+    top: 0;
+    right: 320px; /* Hidden off-screen to the right by default */
+    width: 280px;
+    height: 100vh;
+    background: #ffffff; /* Or var(--white) */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    padding: 6rem 2.5rem;
+    gap: 1.5rem;
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 105;
+  }
+
+  /* When the 'open' class is added via JavaScript, slide the menu in */
+  .nav__links.open {
+    right: 0;
+  }
+
+  /* Animate the 3 bars into an 'X' shape when open */
+  .nav__ham.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav__ham.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav__ham.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+/* ══════════ MOBILE RESPONSIVE NAV ══════════ */
+@media (max-width: 768px) {
+  /* Hide the desktop horizontal link styling and configure the vertical drawer */
+  .nav__links {
+    display: flex;
+    flex-direction: column; /* Stack links vertically */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen to the right by default */
+    width: 280px; /* Drawer width */
+    height: 100vh; /* Full viewport height */
+    background: #ffffff; /* Solid white background for drawer */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05); /* Soft shadow on the left edge */
+    padding: 6rem 2.5rem; /* Space at the top so the close button is clear */
+    gap: 1.8rem; /* Vertical space between each link */
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth slide animation */
+    z-index: 105;
+  }
+
+  /* When the JavaScript adds the "open" class, slide it into view */
+  .nav__links.open {
+    right: 0;
+  }
+
+  /* Style the links inside the mobile drawer */
+  .nav__links li {
+    list-style: none;
+    width: 100%;
+  }
+
+  .nav__links a {
+    display: block;
+    font-size: 18px; /* Slightly larger text for easy tapping on mobile */
+    font-weight: 600;
+    color: #71717a; /* Muted grey */
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f5; /* Subtle separation line */
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  /* Hover and active states for links inside the drawer */
+  .nav__links a:hover,
+  .nav__links a.active {
+    color: #0d0d0d; /* Black */
+    padding-left: 6px; /* Tiny slide-in effect on hover */
+  }
+
+  /* Ensure the hamburger button stays on top of the menu */
+  .nav__ham {
+    display: flex;
+    position: relative;
+    z-index: 110;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="hosteltxt.html">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/></svg>
+      </div>
+      <span class="nav__logo-name">HostelHub</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="hosteltxt.html">Home</a></li>
+      <li><a href="browse.html">Browse Hostels</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="map.html"class="active">Map</a></li>
+      <li><a href="enquire.html">Enquire</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+    </ul>
+    <button class="nav__ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ══════════ PAGE HERO ══════════ -->
+<div class="page-hero" style="position:relative; overflow:hidden;">
+  <div class="dec-shape dec-shape--blue" style="top:-20px; right:-20px; width:220px; height:220px; opacity:0.6;"></div>
+  <div class="dec-shape dec-shape--lavender" style="bottom:-30px; left:10%; width:200px; height:200px; opacity:0.5;"></div>
+
+  <div class="page-hero__inner" style="position:relative; z-index:2;">
+    <p class="page-hero__label">Map Explorer</p>
+    <h1 class="page-hero__h1">Explore Hostel Locations</h1>
+    <p class="page-hero__sub">Visualize all verified hostels around the College of Engineering Trivandrum. Understand distances and neighborhoods before making your choice.</p>
+  </div>
+</div>
+
+<!-- ══════════ MAP CONTENT ══════════ -->
+<div class="map-page">
+
+  <!-- Pastel shape decorations -->
+  <div class="dec-shape dec-shape--beige" style="bottom:10%; left:-5%; width:250px; height:250px; opacity:0.4;"></div>
+  <div class="dec-shape dec-shape--sage" style="top:10%; right:-5%; width:280px; height:280px; opacity:0.4;"></div>
+
+  <svg class="scribble-svg" style="top:18%; left:-5%; width:260px; height:90px; opacity:0.7" viewBox="0 0 260 90">
+    <path class="scribble-path accent-blue" d="M10,25 Q120,80 250,15" />
+  </svg>
+
+  <!-- Info bar -->
+  <div class="map-info-bar reveal">
+    <div class="map-meta">
+      <div class="map-meta-chip">
+        <span class="map-meta-dot map-meta-dot--green"></span>
+        Centred around <strong>CET — Trivandrum</strong>
+      </div>
+      <div class="map-meta-chip">
+        📍 <strong>8.547°N, 76.903°E</strong>
+      </div>
+      <div class="map-meta-chip">
+        <strong>10</strong> hostels mapped
+      </div>
+    </div>
+    <div class="map-filter-chips">
+      <button class="map-chip active" onclick="setChip(this)">All</button>
+      <button class="map-chip" onclick="setChip(this)">Boys</button>
+      <button class="map-chip" onclick="setChip(this)">Girls</button>
+      <button class="map-chip" onclick="setChip(this)">Co-ed</button>
+      <button class="map-chip" onclick="setChip(this)">Under 1 km</button>
+    </div>
+  </div>
+
+  <!-- Map Container -->
+  <div class="map-container reveal">
+    <div class="map-placeholder">
+      <!-- Background grid -->
+      <div class="map-grid"></div>
+
+      <!-- Roads -->
+      <div class="map-road h" style="top:48%;"></div>
+      <div class="map-road v" style="left:50%;"></div>
+      <div class="map-road h-sm" style="top:25%"></div>
+      <div class="map-road h-sm" style="top:73%"></div>
+      <div class="map-road v-sm" style="left:27%"></div>
+      <div class="map-road v-sm" style="left:75%"></div>
+
+      <!-- Green areas -->
+      <div class="map-green" style="width:120px;height:80px;top:64%;left:69%"></div>
+      <div class="map-green" style="width:90px;height:60px;top:16%;left:12%"></div>
+
+      <!-- Water -->
+      <div class="map-water" style="width:110px;height:55px;top:8%;left:76%;border-radius:20px;transform:rotate(-10deg)"></div>
+
+      <!-- Distance rings (centred at CET: 50%, 50%) -->
+      <div class="map-ring" style="width:140px;height:140px;top:50%;left:50%"></div>
+      <div class="map-ring" style="width:260px;height:260px;top:50%;left:50%;opacity:.7"></div>
+      <div class="map-ring" style="width:400px;height:400px;top:50%;left:50%;opacity:.4"></div>
+
+      <!-- CET Pin -->
+      <div class="map-cet-pin" style="top:50%;left:50%">
+        <div class="map-cet-block">
+          <span class="map-cet-label">CET</span>
+          <span class="map-cet-sub">College of Engineering</span>
+        </div>
+        <div class="map-cet-tail"></div>
+      </div>
+
+      <!-- Hostel Pins -->
+      <div class="map-hostel-pin" style="top:38%;left:37%">
+        <div class="map-hostel-bubble" title="Bluebell Hostel — 0.6 km">
+          <div class="map-hostel-dot"></div>
+          <div>
+            <div class="map-hostel-name">Bluebell</div>
+            <div class="map-hostel-dist">0.6 km</div>
+          </div>
+        </div>
+      </div>
+      <div class="map-hostel-pin" style="top:55%;left:33%">
+        <div class="map-hostel-bubble" title="Green Residency — 0.8 km">
+          <div class="map-hostel-dot"></div>
+          <div>
+            <div class="map-hostel-name">Green Res.</div>
+            <div class="map-hostel-dist">0.8 km</div>
+          </div>
+        </div>
+      </div>
+      <div class="map-hostel-pin" style="top:35%;left:63%">
+        <div class="map-hostel-bubble" title="Maple Suites — 1.2 km">
+          <div class="map-hostel-dot"></div>
+          <div>
+            <div class="map-hostel-name">Maple Suites</div>
+            <div class="map-hostel-dist">1.2 km</div>
+          </div>
+        </div>
+      </div>
+      <div class="map-hostel-pin" style="top:62%;left:62%">
+        <div class="map-hostel-bubble" title="Palm Grove — 1.7 km">
+          <div class="map-hostel-dot"></div>
+          <div>
+            <div class="map-hostel-name">Palm Grove</div>
+            <div class="map-hostel-dist">1.7 km</div>
+          </div>
+        </div>
+      </div>
+      <div class="map-hostel-pin" style="top:28%;left:52%">
+        <div class="map-hostel-bubble" title="Sunrise Lodge — 2.1 km">
+          <div class="map-hostel-dot"></div>
+          <div>
+            <div class="map-hostel-name">Sunrise</div>
+            <div class="map-hostel-dist">2.1 km</div>
+          </div>
+        </div>
+      </div>
+      <div class="map-hostel-pin" style="top:22%;left:72%">
+        <div class="map-hostel-bubble" title="Cedar Heights — 3.0 km">
+          <div class="map-hostel-dot"></div>
+          <div>
+            <div class="map-hostel-name">Cedar</div>
+            <div class="map-hostel-dist">3.0 km</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <div class="map-legend-item">
+          <div class="map-legend-icon" style="border-radius:5px"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/></svg></div>
+          CET Campus
+        </div>
+        <div class="map-legend-item">
+          <div class="map-legend-icon hostel"><div class="dot"></div></div>
+          Verified Hostel
+        </div>
+        <div class="map-legend-item">
+          <div class="map-legend-line"></div>
+          Distance Ring (1 km)
+        </div>
+      </div>
+
+      <!-- Compass -->
+      <div class="map-compass">N</div>
+
+      <!-- Coming soon overlay badge -->
+      <div class="map-coming-soon">
+        <div class="map-coming-soon-badge">
+          <div class="map-coming-soon-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 2C7.24 2 5 4.24 5 7c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 10 5a1.5 1.5 0 0 1 0 3.5z" fill="#000"/></svg>
+          </div>
+          <div class="map-coming-soon-text">
+            <div class="map-coming-soon-title">Google Maps Integration Coming Soon</div>
+            <div class="map-coming-soon-sub">Interactive map with live hostel data will be available shortly</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Map bottom strip -->
+    <div class="map-bottom">
+      <div class="map-bottom-info">
+        Showing <strong>10 hostels</strong> near CET &nbsp;·&nbsp; Approximate locations
+      </div>
+      <div class="map-bottom-cet">
+        <span>CET coordinates</span>
+        <span class="map-bottom-cet-coord">8.5471° N, 76.9034° E</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nearby hostels strip -->
+  <div>
+    <div class="section-mini-label reveal">Nearest to CET</div>
+    <div class="nearby-strip">
+      <div class="nearby-card reveal">
+        <div class="nearby-card__header">
+          <div class="nearby-card__title">CET Ladies Hostel (LH)</div>
+          <span class="nearby-card__badge" style="background:#fdf2f8;color:#9d174d;border-color:#fbcfe8">Girls</span>
+        </div>
+        <div class="nearby-card__dist">📍 0.4 km from CET · CET Campus</div>
+        <div class="nearby-card__tags">
+          <span class="nearby-tag">WiFi</span>
+          <span class="nearby-tag">Food</span>
+          <span class="nearby-tag">Security</span>
+        </div>
+      </div>
+      <div class="nearby-card reveal">
+        <div class="nearby-card__header">
+          <div class="nearby-card__title">CET Men's Hostel (MH)</div>
+          <span class="nearby-card__badge" style="background:#eff6ff;color:#1e40af;border-color:#bfdbfe">Boys</span>
+        </div>
+        <div class="nearby-card__dist">📍 0.5 km from CET · CET Campus</div>
+        <div class="nearby-card__tags">
+          <span class="nearby-tag">WiFi</span>
+          <span class="nearby-tag">Food</span>
+          <span class="nearby-tag">Parking</span>
+          <span class="nearby-tag">Security</span>
+        </div>
+      </div>
+      <div class="nearby-card reveal">
+        <div class="nearby-card__header">
+          <div class="nearby-card__title">Bluebell Hostel</div>
+          <span class="nearby-card__badge" style="background:#fdf2f8;color:#9d174d;border-color:#fbcfe8">Girls</span>
+        </div>
+        <div class="nearby-card__dist">📍 0.6 km from CET · Chavadimukku</div>
+        <div class="nearby-card__tags">
+          <span class="nearby-tag">WiFi</span>
+          <span class="nearby-tag">AC</span>
+          <span class="nearby-tag">Food</span>
+          <span class="nearby-tag">Security</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+
+  <footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">
+          <div class="footer__brand-mark"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="#0d0d0d"/></svg></div>
+          HostelHub
+        </div>
+        <p class="footer__desc">The smartest way for students to discover, compare, and choose verified hostels near their college campus.</p>
+        
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links">
+          <li><a href="browse.html">Browse Hostels</a></li>
+          <li><a href="compare.html">Compare Hostels</a></li>
+          <li><a href="enquire.html">Enquire</a></li>
+          <li><a href="admin-login.html">Admin</a></li>
+          
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+     <div class="footer__bottom">
+      <span class="footer__copy">©2026 അതിഥി</span>
+      
+    </div>
+  </div>
+</footer>
+
+<script>
+function setChip(el){
+  document.querySelectorAll('.map-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+const revealEls = document.querySelectorAll('.reveal');
+if(revealEls.length){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+  },{threshold:0.12});
+  revealEls.forEach(el => io.observe(el));
+}
+  // Select the hamburger button and the links menu
+  const navHam = document.querySelector('.nav__ham');
+  const navLinks = document.querySelector('.nav__links');
+
+  if (navHam && navLinks) {
+    navHam.addEventListener('click', () => {
+      // Toggle the 'open' class on both elements when clicked
+      navHam.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  }
+</script>
+
+</body>
+</html>

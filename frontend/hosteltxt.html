@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>അതിഥി CET — Discover Your Perfect Student Home Near CET</title>
+<meta name="description" content="അതിഥി CET helps CET students discover, compare, and evaluate verified hostels near campus through a single organized platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,
+body{
+  width:100%;
+  overflow-x:hidden;
+}
+
+body {
+  font-family: 'Satoshi', system-ui, sans-serif;
+}
+
+/* OVERRIDE & EXTEND SHARED STYLE FOR HOMEPAGE */
+.sec{position:relative;z-index:5}
+.sec__inner{max-width:var(--max);margin:0 auto;padding:5.5rem var(--px)}
+.sec__label{font-size:11px;font-weight:700;letter-spacing:2.5px;color:var(--g9);text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:8px}
+.sec__label::before{content:'';display:block;width:18px;height:1.5px;background:var(--gc);border-radius:2px}
+.sec__title{
+  font-family: 'Satoshi', sans-serif;
+  font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-0.5px;line-height:1.1;margin-bottom:1rem
+}
+.sec__sub{
+font-family:'Satoshi',sans-serif;
+font-weight:500;
+line-height:1.8;
+color:#6b7280;
+}
+
+/* ════ HERO ════ */
+
+.hero{
+  position:relative;
+  z-index:5;
+
+  max-width:1440px;
+  margin:0 auto;
+
+  padding:20px var(--px) 30px;
+
+  min-height:calc(100vh - var(--nav-h) - 40px);
+
+  display:flex;
+  align-items:center;
+  gap:0;
+
+  overflow:hidden;
+}
+.hero__left{flex:0 0 auto;width:100%;max-width:600px;padding:4rem 0 3.5rem;display:flex;flex-direction:column;position:relative;z-index:10;}
+.hero__tag{display:inline-flex;align-items:center;gap:7px;background:var(--gf3);
+  border:1px solid var(--ge);border-radius:20px;padding:.35rem .85rem;
+  font-size:11px;font-weight:700;color:var(--g6);letter-spacing:.5px;text-transform:uppercase;
+  margin-bottom:1.4rem;width:fit-content}
+.hero__dot{
+  width:6px;height:6px;background:#000;border-radius:50%;
+  position:relative;
+}
+.hero__dot::after{
+  content:'';
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  border:1.5px solid #000;
+  opacity:0.4;
+  animation:pulse-ring 1.8s ease-out infinite;
+}
+@keyframes pulse-ring{
+  0%  { transform:scale(1);   opacity:0.4; }
+  70% { transform:scale(2.2); opacity:0;   }
+  100%{ transform:scale(2.2); opacity:0;   }
+}
+.hero__h1{
+  font-family: 'Satoshi', sans-serif;
+  font-size:clamp(2.8rem,4.8vw,5.2rem);font-weight:900;line-height:.96;
+  letter-spacing:-1px;color:var(--black);margin-bottom:24px
+}
+.hero__sub{
+font-family:'Satoshi',sans-serif;
+font-weight:500;
+font-size:14.50px;
+margin-bottom:18px;
+max-width:380px;
+line-height:1.8;
+color:#6b7280;
+}
+.hero__cta-group{display:flex;align-items:center;gap:1rem;margin-top:8px;margin-bottom:32px;position:relative}
+
+/* Premium compact hero button */
+.btn-hero{
+  display:inline-flex;align-items:center;gap:8px;background:#000000;color:var(--white);
+  border:none;padding:.8rem 1.6rem;border-radius:24px;font-family:inherit;font-size:14px;
+  font-weight:600;cursor:pointer;transition:background .18s,transform .15s,box-shadow .15s;
+  text-decoration:none;
+}
+.btn-hero:hover{background:#222;transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.15)}
+.btn-hero svg{width:15px;height:15px;transition:transform .2s}
+.btn-hero:hover svg{transform:translateX(3px)}
+
+/* Typing underline styles */
+.hand-drawn-underline {
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  pointer-events: none;
+}
+.hand-drawn-underline path {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  transition: stroke-dashoffset 0.5s ease-in-out;
+}
+.hand-drawn-underline.active path {
+  stroke-dashoffset: 0;
+}
+.typing-cursor {
+  font-weight: 300;
+  animation: blink 0.7s infinite;
+  margin-left: 2px;
+  color: var(--g6);
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.hero__trust{display:flex;align-items:center;gap:1rem;margin-top:1.8rem;padding-top:1.8rem;border-top:1px solid var(--ge)}
+.trust__avs{display:flex}
+.trust__av{width:30px;height:30px;border-radius:50%;border:2px solid var(--white);
+  margin-left:-8px;font-size:10px;font-weight:700;display:grid;place-items:center}
+.trust__av:first-child{margin-left:0}
+.av1{background:#fde8d0;color:#b45309}.av2{background:#dbeafe;color:#1d4ed8}
+.av3{background:#d1fae5;color:#065f46}.av4{background:#ede9fe;color:#5b21b6}
+.trust__txt{font-size:12px;color:var(--g6);font-weight:500;line-height:1.45}
+.trust__txt strong{color:var(--black);font-weight:700}
+
+/* hero right - Optimized centerpiece layout for college illustration */
+.hero__right{
+    position:absolute;
+    right:-40px;
+    top:50%;
+    transform:translateY(-50%);
+
+    width:850px;
+
+    z-index:1;
+    pointer-events:none;
+}
+
+.hero__img-wrap{
+    width:100%;
+}
+
+.hero__img{
+    width:100%;
+    height:auto;
+    display:block;
+    mix-blend-mode:multiply;
+    mask-image:linear-gradient(to right,transparent 0%,black 18%);
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,black 18%);
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 1s ease, transform 1s ease;
+}
+.hero__img.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ════ PLATFORM OVERVIEW ════ */
+.overview{background:#F6EFD2;border-bottom:1px solid #E2DDB4;position:relative}.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;position:relative;z-index:2}
+.ov-card{
+  background:var(--white);border:1px solid #e5e5e5;border-radius:var(--radius);
+  padding:1.8rem 1.6rem 2rem;
+  opacity:0;transform:translateY(30px) scale(0.96);
+  transition:opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s;
+  cursor:pointer;
+}
+.ov-card.visible{opacity:1;transform:translateY(0) scale(1)}
+.ov-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:#000;}
+.ov-card__icon{
+  width:44px;height:44px;background:var(--black);border-radius:12px;
+  display:grid;place-items:center;margin-bottom:1.2rem;
+}
+.ov-card__icon svg{width:20px;height:20px}
+.ov-card__title{
+  font-family: 'Satoshi', sans-serif;
+  font-size:15px;font-weight:600;letter-spacing:-0.2px;margin-bottom:.5rem
+}
+.ov-card__desc{font-size:13.5px;color:var(--g6);line-height:1.6}
+
+/* ════ HOW IT WORKS ════ */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem;position:relative}
+.steps-grid::before{content:'';position:absolute;top:2.5rem;left:16%;right:16%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--ge) 20%,var(--ge) 80%,transparent);z-index:0}
+.step{background:var(--white);border:1px solid var(--ge);border-radius:var(--radius);
+  padding:2rem 2rem 2.2rem;text-align:center;position:relative;z-index:1;
+  transition:transform .22s,box-shadow .22s}
+.step:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.step__num{width:48px;height:48px;background:var(--black);border-radius:14px;
+  display:grid;place-items:center;margin:0 auto 1.2rem;color:var(--white);
+  font-size:20px;font-weight:800;letter-spacing:-1px}
+.step__icon{margin-bottom:.5rem}
+.step__icon svg{width:26px;height:26px;opacity:.5}
+.step__title{font-size:17px;font-weight:800;margin-bottom:.6rem;letter-spacing:-.3px}
+.step__desc{font-size:14px;color:var(--g6);line-height:1.65}
+
+/* ════ FEATURE PREVIEW SECTIONS ════ */
+.feat-sec{border-top:1px solid var(--ge);overflow:hidden;position:relative}
+.feat-sec.feat-sec--alt{background:#F6EFD2}
+.feat-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;position:relative;z-index:2;
+}
+.feat-grid--alt .feat__visual{order:-1}
+.feat__content{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem}
+.feat__label{
+  font-size:11px;font-weight:700;letter-spacing:2.5px;
+  color:var(--g9);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin-bottom:.5rem;
+}
+.feat__label::before{
+  content:'';display:block;width:18px;height:1.5px;
+  background:var(--gc);border-radius:2px;
+}
+.feat__h{
+  font-family: 'Satoshi', sans-serif;
+  font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;
+  letter-spacing:-0.5px;line-height:1.05;margin-bottom:1rem;
+}
+.feat__p{
+font-family:'Satoshi',sans-serif;
+font-weight:500;
+margin-bottom:18px;
+line-height:1.8;
+color:#6b7280;
+}
+/* Creative Bold Layout for Feature Links (Explore, Compare, Map) */
+/* Asymmetric Leaf Corner-Morphing Style for Feature Buttons */
+.feat__link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  background:#000;
+  color:var(--white);
+
+  border:none;
+  padding:.8rem 1.6rem;
+  border-radius:24px;
+
+  font-family:inherit;
+  font-size:14px;
+  font-weight:600;
+
+  cursor:pointer;
+  text-decoration:none;
+
+  transition:background .18s,
+             transform .15s,
+             box-shadow .15s;
+}
+
+.feat__link:hover{
+  background:#222;
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(0,0,0,.15);
+}
+
+.feat__link svg{
+  width:15px;
+  height:15px;
+  transition:transform .2s;
+}
+
+.feat__link:hover svg{
+  transform:translateX(3px);
+}
+/* Visual placeholder containers */
+.feat__visual{
+  position:relative;
+  background:var(--white);
+  border:1px solid var(--ge);
+  border-radius:24px;
+  min-height:385px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  display:flex;flex-direction:column;
+}
+.feat__visual-header{
+  padding:1rem 1.4rem;
+  border-bottom:1px solid var(--ge);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.feat__visual-dots{display:flex;gap:5px}
+.feat__visual-dots span{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--ge);display:block;
+}
+.feat__visual-dots span:first-child{background:#f87171}
+.feat__visual-dots span:nth-child(2){background:#fbbf24}
+.feat__visual-dots span:last-child{background:#4ade80}
+.feat__visual-title{font-size:12px;font-weight:600;color:var(--g9);letter-spacing:.3px}
+.feat__visual-body{padding:1.4rem;flex:1;display:flex;flex-direction:column;gap:.75rem;position:relative}
+
+/* Custom interactive preview layouts styling */
+.fv-cursor{
+  position:absolute;width:18px;height:18px;z-index:99;
+  pointer-events:none;opacity:0;
+  transition:top 0.8s cubic-bezier(0.25, 1, 0.5, 1), left 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, transform 0.2s ease;
+}
+.fv-searchbar{
+  height:38px;background:var(--gf3);border:1px solid var(--ge);
+  border-radius:10px;display:flex;align-items:center;padding:0 1rem;gap:.6rem;
+  margin-bottom:.5rem;transition:border-color 0.3s;
+}
+.fv-chips{display:flex;gap:.4rem;margin-bottom:.5rem}
+.demo-chip{
+  padding:.3rem .7rem;border-radius:20px;background:var(--gf3);border:1px solid var(--ge);
+  font-size:10.5px;font-weight:600;color:var(--g6);transition:all 0.25s ease;
+}
+.demo-chip.active{background:var(--black);border-color:var(--black);color:var(--white)}
+.demo-card{
+  background:var(--white);border:1px solid var(--ge);border-radius:5px;
+  padding:.65rem;transition:all 0.5s ease;
+}
+
+/* Compare demo styling */
+.demo-dropdown-trigger{
+  padding:.6rem .8rem;border:1.5px solid var(--ge);border-radius:8px;
+  font-size:12px;font-weight:500;color:var(--g6);background:var(--white);
+  display:flex;justify-content:space-between;align-items:center;width:100%;
+}
+.demo-btn{
+  background:var(--gf3);color:var(--g6);border:1px solid var(--ge);
+  padding:.55rem 1.1rem;border-radius:16px;font-size:11.5px;font-weight:700;
+  transition:all 0.25s ease;
+}
+.demo-btn.active{background:var(--black);color:var(--white);border-color:var(--black)}
+.demo-table{width:100%;border-collapse:collapse;font-size:11px}
+.demo-table th, .demo-table td{padding:.5rem .6rem;border-bottom:1px solid var(--ge);text-align:center}
+.demo-table td:first-child{text-align:left;font-weight:600;color:var(--g9)}
+.comp-demo-row{transition:background 0.3s ease}
+.comp-demo-row.highlight{background:var(--pastel-sage)}
+.comp-demo-row.highlight td:nth-child(2), .c.omp-demo-row.highlight td:nth-child(3){font-weight:700;color:#16a34a}
+
+.demo-select-wrap{
+  position:relative;
+}
+
+.demo-select-wrap{
+    position:relative;
+    flex:1;
+    min-width:0;
+}
+
+.demo-dropdown-menu{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  z-index:9999;
+
+  background:#fff;
+  border:1px solid var(--ge);
+
+  border-radius:10px;
+
+  overflow:hidden;
+
+  box-shadow:var(--shadow);
+
+  opacity:0;
+  transform:translateY(-6px);
+
+  transition:.25s;
+
+  pointer-events:none;
+
+}
+
+.demo-dropdown-menu.open{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.demo-dropdown-menu div{
+  padding:.55rem .75rem;
+  font-size:11px;
+  border-bottom:1px solid var(--ge);
+}
+
+.demo-dropdown-menu div:last-child{
+  border-bottom:none;
+}
+
+.demo-dropdown-menu div:hover{
+  background:var(--gf3);
+}
+/* Database demo styling */
+.db-demo-row{transition:all 0.5s ease}
+.db-badge{font-size:8.5px;font-weight:700;padding:.15rem .4rem;border-radius:4px;letter-spacing:.3px}
+.db-badge--vacant{background:#d1fae5;color:#065f46}
+.db-badge--full{background:#fee2e2;color:#dc2626}
+
+/* ── STATS ════ */
+.stats-sec{background:var(--black);color:var(--white);position:relative;overflow:hidden}
+.stats-sec .sec__inner{padding:4.5rem var(--px)}
+.stats-sec .sec__label{color:rgba(255,255,255,.4)}
+.stats-sec .sec__label::before{background:rgba(255,255,255,.25)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3rem}
+.sstat{text-align:center;padding:2rem 1.5rem;border-right:1px solid rgba(255,255,255,.1)}
+.sstat:last-child{border-right:none}
+.sstat__num{font-size:clamp(2.5rem,4vw,4rem);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:.5rem}
+.sstat__lbl{font-size:13px;color:rgba(255,255,255,.55);font-weight:500}
+
+/* ════ FAQ ════ */
+.faq-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:.75rem;max-width:760px}
+.faq-item{border:1px solid var(--ge);border-radius:var(--radius);overflow:hidden;background:var(--white)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:1.15rem 1.4rem;font-size:15px;font-weight:600;cursor:pointer;background:none;
+  border:none;font-family:inherit;color:var(--black);text-align:left;gap:1rem;
+  transition:background .18s}
+.faq-q:hover{background:var(--gf3)}
+.faq-icon{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ge);
+  display:grid;place-items:center;flex-shrink:0;font-size:16px;transition:transform .25s,background .18s}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--black);border-color:var(--black);color:var(--white)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s ease;
+  font-size:14.5px;color:var(--g6);line-height:1.7;padding:0 1.4rem}
+.faq-item.open .faq-a{max-height:200px;padding:.1rem 1.4rem 1.2rem}
+
+/* ════ FINAL CTA ════ */
+.finalcta{text-align:center;border-top:1px solid var(--ge);position:relative;overflow:hidden}
+.finalcta .sec__inner{padding:4rem var(--px) 2rem}
+.finalcta__bg{
+  position:absolute;inset:0;
+  background:#f8f8f8;
+  opacity:.55;pointer-events:none;z-index:-1;
+}
+.cta-features{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1.2rem;margin-top:2.5rem;
+}
+.cta-feat-card{
+  background:rgba(255,255,255,.8);
+  border:1px solid var(--ge);border-radius:var(--radius);
+  padding:1.6rem 1.4rem;text-align:center;
+  transition:transform .22s,box-shadow .22s,background .18s;
+  text-decoration:none;color:inherit;display:block;
+  opacity:0;transform:translateY(30px) scale(0.96);
+  transition:opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s, background 0.18s;
+}
+.cta-feat-card.visible{opacity:1;transform:translateY(0) scale(1)}
+.cta-feat-card:hover{
+  transform:translateY(-4px);box-shadow:var(--shadow-lg);
+  background:var(--white);
+}
+.cta-feat-icon{
+  width:46px;height:46px;background:var(--black);border-radius:12px;
+  display:grid;place-items:center;margin:0 auto 1rem;
+}
+.cta-feat-icon svg{width:20px;height:20px}
+.cta-feat-title{font-size:14px;font-weight:700;letter-spacing:-.3px;margin-bottom:.35rem}
+.cta-feat-sub{font-size:12.5px;color:var(--g6);line-height:1.5}
+.finalcta__h{
+  font-family: 'Satoshi', sans-serif;
+  font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;letter-spacing:-1px;
+  line-height:1.05;margin-bottom:1rem;
+}
+
+/* ── CTA DROPDOWN BUTTONS ── */
+.cta-action-btns{
+  display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;
+  margin-top:1.6rem;
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease;
+}
+.cta-action-btns.open{max-height:200px;opacity:1}
+.cta-action-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:.75rem 1.5rem;border-radius:12px;
+  font-family:inherit;font-size:13.5px;font-weight:700;
+  text-decoration:none;cursor:pointer;border:none;
+  transition:transform .18s, box-shadow .18s, background .18s;
+}
+.cta-action-btn--solid{background:#000;color:#fff}
+.cta-action-btn--solid:hover{background:#111;transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.15)}
+.cta-action-btn--outline{background:#fff;color:var(--black);border:1.5px solid var(--ge)}
+.cta-action-btn--outline:hover{border-color:#999;transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.btn-hero-cta-wrap{display:inline-flex;flex-direction:column;align-items:center}
+
+.finalcta__sub{
+  font-size:16px;color:var(--g6);max-width:480px;
+  margin:0 auto 2.2rem;line-height:1.7;
+}
+
+/* Map visual mock overrides */
+.fv-map-wrap{
+  flex:1;position:relative;
+  background:linear-gradient(135deg,#f5f4f1 0%,#ebe9e3 100%);
+  margin:-.1rem;
+}
+.fv-map-grid-line{position:absolute;background:rgba(0,0,0,0.06)}
+.fv-map-grid-line.h{left:0;right:0;height:1px}
+.fv-map-grid-line.v{top:0;bottom:0;width:1px}
+.fv-map-pin{
+  position:absolute;width:34px;height:34px;background:var(--white);border:1.5px solid var(--ge);
+  border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center;
+  font-size:9px;font-weight:700;color:var(--black);transform:translate(-50%,-50%);
+}
+.fv-map-cet{
+  position:absolute;width:48px;height:48px;background:var(--black);border-radius:10px;
+  display:grid;place-items:center;font-size:9px;font-weight:800;color:var(--white);
+  transform:translate(-50%,-50%);box-shadow:var(--shadow-lg);
+}
+.fv-map-ring{
+  position:absolute;border-radius:50%;border:1px dashed rgba(0,0,0,0.12);
+  transform:translate(-50%,-50%);
+}
+
+/* ════ RESPONSIVE ════ */
+@media(max-width:1024px){
+  .overview-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .sstat{border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sstat:nth-child(odd){border-right:1px solid rgba(255,255,255,.1)}
+  .cta-features{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{gap:3rem}
+}
+@media(max-width:1023px){
+  .hero{gap:40px}
+  .hero__h1{font-size:clamp(2.4rem,3.8vw,4rem)}
+}
+@media(max-width:860px){
+  .steps-grid{grid-template-columns:1fr;gap:1rem}
+  .steps-grid::before{display:none}
+  .feat-grid{grid-template-columns:1fr;gap:2.5rem}
+  .feat-grid--alt .feat__visual{order:0}
+  .feat__visual{min-height:280px}
+}
+@media(max-width:767px){
+  .hero__h1{
+    font-size:2.6rem !important;
+    line-height:0.95;
+  }
+  .btn-hero {
+    width: fit-content;
+  }
+  .hero,
+  .hero__right,
+  .hero__img-wrap{
+    overflow:hidden;
+  }
+
+.hero__img{
+  max-width:100%;
+}
+  .hero{flex-direction:column;align-items:flex-start;min-height:auto;padding-top:2.5rem;gap:0}
+  .hero__left{width:100%;padding:0 0 2rem}
+  .hero__right{
+  width:100%;
+  min-height:auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+  .hero__panel{right:-2.2rem;left:-2.2rem;border-radius:0}
+  .hero__img{
+  transform:none;
+  width:100%;
+  max-width:340px;
+  height:auto;
+}
+  .hero__img-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0 !important;
+  margin-right:0 !important;
+  padding:0 !important;
+  overflow:visible;
+}
+.scribble-svg{
+  display:none;
+}
+
+body,
+html{
+  overflow-x:hidden;
+}
+}
+@media (max-width: 768px) {
+  .nav__ham {
+    display: flex;
+  }
+
+  .nav__links {
+    position: fixed;
+    top: 72px;
+    right: -280px;
+    width: 260px;
+    height: calc(100vh - 72px);
+    background: var(--white);
+    border-left: 1px solid var(--ge);
+    flex-direction: column;
+    padding: 1.5rem 1.5rem;
+    gap: 0;
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 105;
+    overflow-y: auto;
+  }
+
+  .nav__links.open {
+    right: 0;
+  }
+
+  .nav__links li {
+    list-style: none;
+    width: 100%;
+  }
+
+  .nav__links a {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--g6);
+    text-decoration: none;
+    padding: .7rem 0;
+    border-bottom: 1px solid var(--ge);
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  .nav__links li:last-child a {
+    border-bottom: none;
+  }
+
+  .nav__links a:hover,
+  .nav__links a.active {
+    color: var(--black);
+    padding-left: 6px;
+  }
+
+  .nav__ham.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav__ham.open span:nth-child(2) { opacity: 0; }
+  .nav__ham.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .overview-grid { grid-template-columns: 1fr !important; gap: 1rem !important; margin-top: 2rem; }
+  .ov-card { padding: 1.4rem !important; }
+  .ov-card__title { font-size: 1.05rem !important; }
+  .ov-card__desc { font-size: 14px !important; line-height: 1.7 !important; }
+}
+
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 104;
+  top: var(--nav-h);
+}
+.nav__overlay.open {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  #hero {
+    margin-top: -8px;
+  }
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #000;
+  color: #ffffff;
+  border: 3px solid #000;
+  padding: 1.1rem 2.2rem;
+  border-radius: 8px; /* Clean rectangular corners */
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 900; /* Extra bold */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  box-shadow: 6px 6px 0px #E2DDB4; /* Solid colored shadow */
+}
+.btn-hero:hover {
+  background: #000;
+  transform: translate(3px, 3px); /* Button presses down */
+  box-shadow: 3px 3px 0px #F6EFD2; /* Shadow gets compressed */
+}
+.btn-hero svg {
+  transition: transform .2s;
+}
+.btn-hero:hover svg {
+  transform: translateX(4px);
+}
+/* Creative Bold Layout for Feature Links (Explore, Compare, Map) */
+.feat__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #000;
+  color: var(--white, #ffffff);
+  border: 2px solid #000;
+  padding: .8rem 1.6rem;
+  border-radius: 16px 4px 16px 4px; /* Creative Leaf Shape */
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 900; /* Extra bold */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.08);
+}
+
+.feat__link:hover {
+  background: #000;
+  border-radius: 4px 16px 4px 16px; /* Corner swap on hover */
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px var(--accent-brand, #E2DDB4); /* Colored brand shadow */
+}
+
+.feat__link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform .3s;
+}
+
+.feat__link:hover svg {
+  transform: translateX(4px);
+}
+
+.demo-skeleton{
+  height:10px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+  position:relative;
+}
+
+.demo-skeleton::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.7),
+    transparent
+  );
+  animation:skeleton-shimmer 1.8s infinite;
+}
+
+@keyframes skeleton-shimmer{
+  100%{
+    transform:translateX(100%);
+  }
+}
+
+/* Laptop */
+@media(max-width:1400px){
+
+    .hero__right{
+        width:760px;
+        right:-20px;
+    }
+
+    .hero__left{
+        max-width:500px;
+    }
+}
+
+/* Tablet */
+@media(max-width:1024px){
+
+    .hero{
+        min-height:700px;
+    }
+
+    .hero__right{
+        width:620px;
+        right:-80px;
+    }
+}
+
+/* Mobile */
+@media(max-width:767px){
+
+    .hero{
+        flex-direction:column;
+        min-height:auto;
+
+        padding-top:2rem;
+        padding-bottom:2rem;
+
+        gap:1rem;
+    }
+
+    .hero__right{
+        position:relative;
+
+        right:auto;
+        top:auto;
+
+        transform:none;
+
+        width:100%;
+
+        display:flex;
+        justify-content:center;
+    }
+
+    .hero__img{
+        max-width:360px;
+
+        mask-image:none;
+        -webkit-mask-image:none;
+    }
+}
+
+.enquiry-demo{
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  justify-content:center;
+  height:100%;
+  padding:1rem;
+}
+
+.enquiry-chat{
+  background:#fff;
+  border:1px solid var(--ge);
+  border-radius:14px;
+  padding:.9rem 1rem;
+  font-size:13px;
+  font-weight:600;
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:translateY(20px);
+  animation:enquiryReveal 5s infinite;
+}
+
+.question-1{animation-delay:.2s;}
+.question-2{animation-delay:.8s;}
+.question-3{animation-delay:1.4s;}
+.question-4{animation-delay:2s;}
+.question-5{animation-delay:2.6s;}
+
+.enquiry-check{
+  margin-top:1rem;
+  align-self:flex-start;
+
+  background:#dcfce7;
+  color:#166534;
+
+  padding:.7rem 1rem;
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:700;
+
+  opacity:0;
+
+  animation:enquiryCheck 5s infinite;
+  animation-delay:3.3s;
+}
+
+@keyframes enquiryReveal{
+  0%,100%{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  15%,90%{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes enquiryCheck{
+  0%,70%{
+    opacity:0;
+    transform:scale(.9);
+  }
+
+  80%,95%{
+    opacity:1;
+    transform:scale(1);
+  }
+
+  100%{
+    opacity:0;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding-top: 1rem;
+    padding-bottom: 0;
+    gap: 0;
+  }
+
+  .hero__left {
+    padding-bottom: 1rem;
+  }
+
+  .hero__right {
+    margin-top: -1rem;
+  }
+
+  .hero__img {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="hosteltxt.html">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/></svg>
+      </div>
+      <span class="nav__logo-name">അതിഥി CET</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="hosteltxt.html" class="active">Home</a></li>
+      <li><a href="browse.html">Browse Hostels</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="enquire.html">Enquire</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+    </ul>
+    <button class="nav__ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+
+</header>
+<div class="nav__overlay" id="nav-overlay"></div>
+<!-- ══════════ HERO ══════════ -->
+
+<section id="hero" class="sec">
+  <!-- Pastel color shape decorations -->
+
+  <!-- Subtle doodle paths -->
+  <svg class="scribble-svg" style="top:18%; left:8%; width:280px; height:100px; opacity:0.8" viewBox="0 0 280 100">
+    <path class="scribble-path accent-lavender" d="M10,20 Q110,80 270,10" />
+  </svg>
+  <svg class="scribble-svg" style="bottom:24%; right:5%; width:200px; height:80px; opacity:0.7" viewBox="0 0 200 80">
+    <path class="scribble-path accent-blue" d="M190,15 C130,65 70,5 10,70" />
+  </svg>
+
+  <div class="hero">
+    <div class="hero__left">
+      <span class="hero__tag"><span class="hero__dot"></span>Student Hostel Discovery · CET</span>
+      <h1 class="hero__h1">
+        DISCOVER<br>YOUR STUDENT<br>
+        <span style="position: relative; display: inline-block;">
+         <span id="typed-word" style="font-family: 'Fredericka the Great', cursive; font-style: italic;">
+  HOME
+</span>
+          <span class="typing-cursor">|</span>
+          <svg class="hand-drawn-underline" viewBox="0 0 200 20" preserveAspectRatio="none">
+            <path d="M5,12 Q50,19 100,12 T195,13" stroke="var(--black)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </h1>
+      <p class="hero__sub">Browse verified hostels near CET, compare pricing and amenities, explore locations on a map, and choose your accommodation with complete confidence.</p>
+      
+      <div class="hero__cta-group">
+        <button class="btn-hero" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+          Get Started
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+    </div>
+    
+    <!-- Hero right: Premium college illustration centerpiece -->
+    <div class="hero__right">
+      <div class="hero__panel"></div>
+      <div class="hero__img-wrap">
+        <img class="hero__img" src="assets/college_.png" alt="College of Engineering Trivandrum"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="line-height:0;overflow:hidden;margin-top:-2px;position:relative;z-index:6;">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:60px;">
+    <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#F6EFD2"/>
+  </svg>
+</div>
+
+<!-- ══════════ PLATFORM OVERVIEW ══════════ -->
+<section id="features" class="sec overview">
+  <!-- Pastel shapes behind platform overview -->
+  
+  <div class="sec__inner">
+    <p class="sec__label">Platform</p>
+    <h2 class="sec__title">Everything Students Need<br>To Find The Right Hostel</h2>
+    <p class="sec__sub">അതിഥി CET helps students discover, compare, and evaluate hostels near their campus through a single organized platform.</p>
+    
+    <div class="overview-grid">
+      <div class="ov-card" onclick="window.scrollTo({top:document.getElementById('feat-browse').offsetTop - 90,behavior:'smooth'})">
+        <div class="ov-card__icon">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="4" rx="1.5" stroke="white" stroke-width="1.5"/><rect x="2" y="11" width="16" height="4" rx="1.5" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <div class="ov-card__title">Browse Hostels</div>
+        <div class="ov-card__desc">Explore a curated directory of verified student accommodations near your campus with detailed profiles.</div>
+      </div>
+      <div class="ov-card" onclick="window.scrollTo({top:document.getElementById('feat-compare').offsetTop - 90,behavior:'smooth'})">
+        <div class="ov-card__icon">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="7" height="12" rx="1.5" stroke="white" stroke-width="1.5"/><rect x="11" y="4" width="7" height="12" rx="1.5" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <div class="ov-card__title">Compare Before You Commit</div>
+        <div class="ov-card__desc">Evaluate pricing, facilities, amenities, and location side by side before making any decision.</div>
+      </div>
+      <div class="ov-card" onclick="window.scrollTo({top:document.getElementById('feat-map').offsetTop - 90,behavior:'smooth'})">
+        <div class="ov-card__icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2C7.24 2 5 4.24 5 7c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 10 5a1.5 1.5 0 0 1 0 3.5z" fill="white"/></svg>
+        </div>
+        <div class="ov-card__title">Map Explorer</div>
+        <div class="ov-card__desc">Visualize hostel locations around campus. Understand walking distances and surrounding areas at a glance.</div>
+      </div>
+
+      <div class="ov-card" onclick="window.scrollTo({top:document.getElementById('feat-enquire').offsetTop - 90,behavior:'smooth'})">
+  <div class="ov-card__icon">
+    <svg viewBox="0 0 20 20" fill="none">
+      <path d="M16 3H4C2.9 3 2 3.9 2 5V12C2 13.1 2.9 14 4 14H8L10 17L12 14H16C17.1 14 18 13.1 18 12V5C18 3.9 17.1 3 16 3Z"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="ov-card__title">Send Enquiry</div>
+
+  <div class="ov-card__desc">
+    Contact hostel owners directly, check room availability, ask questions, and receive responses before making your final decision.
+  </div>
+</div>
+
+</div> <!-- overview-grid -->
+      
+   
+</section>
+
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="sec" style="position:relative; overflow:hidden;">
+  
+  <div class="sec__inner">
+    <p class="sec__label reveal">Process</p>
+    <h2 class="sec__title reveal">How It Works</h2>
+    <p class="sec__sub reveal">Finding your perfect student accommodation takes just three straightforward steps.</p>
+    <div class="steps-grid">
+      <div class="step reveal bg-beige">
+        <div class="step__num">01</div>
+        <div class="step__icon">
+          <svg viewBox="0 0 26 26" fill="none"><circle cx="12" cy="12" r="8" stroke="#000" stroke-width="1.5"/><line x1="18" y1="18" x2="24" y2="24" stroke="#000" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="step__title">Browse Hostels</div>
+        <p class="step__desc">Explore verified student accommodations near your campus. Filter by budget, distance, gender, and required facilities.</p>
+      </div>
+      <div class="step reveal bg-sage">
+        <div class="step__num">02</div>
+        <div class="step__icon">
+          <svg viewBox="0 0 26 26" fill="none"><rect x="2" y="4" width="10" height="18" rx="2" stroke="#000" stroke-width="1.5"/><rect x="14" y="4" width="10" height="18" rx="2" stroke="#000" stroke-width="1.5"/></svg>
+        </div>
+        <div class="step__title">Compare Options</div>
+        <p class="step__desc">Evaluate facilities, pricing, and location side by side. Our comparison tool makes it easy to weigh your options clearly.</p>
+      </div>
+      <div class="step reveal bg-lavender">
+        <div class="step__num">03</div>
+        <div class="step__icon">
+          <svg viewBox="0 0 26 26" fill="none"><path d="M4 13L10 19L22 7" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="step__title">Make Better Decisions</div>
+        <p class="step__desc">Choose your accommodation with complete confidence. Contact hostel owners directly and finalize your booking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BROWSE HOSTELS PREVIEW ══════════ -->
+<section id="feat-browse" class="sec feat-sec">
+  <div class="sec__inner">
+    <div class="feat-grid">
+      <div class="feat__content reveal">
+        <p class="feat__label">Browse</p>
+        <h2 class="feat__h">Find Your Next Student Home</h2>
+        <p class="feat__p">Explore student accommodations near your campus through a clean and organized directory. Filter by budget, distance, gender, and amenities to find exactly what you need.</p>
+        <a href="browse.html" class="feat__link">
+          Explore Hostels
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      
+      <!-- MINIATURE ANIMATED BROWSE DEMO -->
+      <div class="feat__visual reveal" style="position:relative;">
+        
+        <div class="feat__visual-header" style="position:relative; z-index:2; background:rgba(255,255,255,0.92); backdrop-filter:blur(8px);">
+          <div class="feat__visual-dots"><span></span><span></span><span></span></div>
+          <span class="feat__visual-title">Search & Filter Demo</span>
+        </div>
+        
+        <div class="feat__visual-body" style="position:relative; z-index:2; padding:1.4rem;">
+          <!-- SVG Doodle lines around preview -->
+          <svg class="scribble-svg" style="top:-20px; right:-20px; width:120px; height:120px; opacity:0.5" viewBox="0 0 120 120">
+            <path class="scribble-path accent-lavender" d="M10,90 C40,40 80,80 110,20" />
+          </svg>
+
+          <!-- Cursor -->
+          <div class="fv-cursor" id="browse-cursor">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="black">
+              <path d="M4.5 2.5v16.3l4.6-4.6 3.6 8.3 2.7-1.2-3.6-8.3 6.1-.2Z" stroke="white" stroke-width="1.5"/>
+            </svg>
+          </div>
+          
+          <div class="fv-searchbar" style="background:var(--white); position:relative; z-index:5;">
+            <span style="font-size:13px; color:var(--g6)">🔍</span>
+            <div id="browse-search-text" style="font-size:13px; font-weight:500; color:var(--black); min-height:16px;"></div>
+          </div>
+          
+          <div class="fv-chips" style="margin-bottom:.8rem; position:relative; z-index:5;">
+            <span class="demo-chip">Any</span>
+            <span class="demo-chip">Girls Hostel</span>
+            <span class="demo-chip">Boys Hostel</span>
+            <span class="demo-chip">Under 1km</span>
+          </div>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:.8rem; position:relative; z-index:5;">
+            <div class="demo-card demo-card-item">
+              <div style="font-weight:700; font-size:12px; margin-bottom:.3rem;">CET Ladies Hostel</div>
+              <div style="font-size:10px; color:var(--g6); margin-bottom:.5rem;">📍 0.2 km · Girls</div>
+              <div style="height:6px; background:var(--ge); width:70%; border-radius:3px;"></div>
+            </div>
+            <div class="demo-card demo-card-item">
+              <div style="font-weight:700; font-size:12px; margin-bottom:.3rem;">Royal Life Hostel</div>
+              <div style="font-size:10px; color:var(--g6); margin-bottom:.5rem;">📍 1.1 km · Girls</div>
+              <div style="height:6px; background:var(--ge); width:50%; border-radius:3px;"></div>
+            </div>
+            <div class="demo-card demo-card-item">
+              <div style="font-weight:700; font-size:12px; margin-bottom:.3rem;">Ideal Hostel</div>
+              <div style="font-size:10px; color:var(--g6); margin-bottom:.5rem;">📍 0.2 km · Boys</div>
+              <div style="height:6px; background:var(--ge); width:60%; border-radius:3px;"></div>
+            </div>
+            <div class="demo-card demo-card-item">
+              <div style="font-weight:700; font-size:12px; margin-bottom:.3rem;">San Jose Hostel</div>
+              <div style="font-size:10px; color:var(--g6); margin-bottom:.5rem;">📍 0.9 km · Girls</div>
+              <div style="height:6px; background:var(--ge); width:40%; border-radius:3px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ COMPARE HOSTELS PREVIEW ══════════ -->
+<section id="feat-compare" class="sec feat-sec feat-sec--alt">
+  <div class="sec__inner">
+    <div class="feat-grid feat-grid--alt">
+      <div class="feat__content reveal">
+        <p class="feat__label">Compare</p>
+        <h2 class="feat__h">Compare Before You Commit</h2>
+        <p class="feat__p">Compare pricing, facilities, amenities, and location side by side before making a decision. Every important detail laid out clearly in one view.</p>
+        <a href="compare.html" class="feat__link">
+          Start Comparing
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      
+      <!-- MINIATURE ANIMATED COMPARE DEMO -->
+      <div class="feat__visual reveal" style="position:relative;">
+        
+        <div class="feat__visual-header" style="position:relative; z-index:2; background:rgba(255,255,255,0.92); backdrop-filter:blur(8px);">
+          <div class="feat__visual-dots"><span></span><span></span><span></span></div>
+          <span class="feat__visual-title">Compare Interaction Demo</span>
+        </div>
+        
+        <div class="feat__visual-body" style="position:relative; z-index:2; padding:1.2rem; display:flex; flex-direction:column; gap:1rem;">
+          <!-- SVG Scribble lines around Compare preview -->
+          <svg class="scribble-svg" style="bottom:-10px; left:-10px; width:150px; height:80px; opacity:0.5" viewBox="0 0 150 80">
+            <path class="scribble-path accent-beige" d="M10,10 Q80,70 140,20" />
+          </svg>
+
+          <!-- Cursor -->
+          <div class="fv-cursor" id="compare-cursor">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="black">
+              <path d="M4.5 2.5v16.3l4.6-4.6 3.6 8.3 2.7-1.2-3.6-8.3 6.1-.2Z" stroke="white" stroke-width="1.5"/>
+            </svg>
+          </div>
+          
+          <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:.5rem; align-items:center; position:relative; z-index:5;">
+            <div class="demo-select-wrap">
+
+            <div class="demo-dropdown-trigger" id="comp-dd-1">
+                 Select hostel...
+            </div>
+
+            <div class="demo-dropdown-menu" id="comp-menu-1">
+              <div>Arogya Hostel</div>
+              <div>Royal Life</div>
+              <div>Ideal Hostel</div>
+            </div>
+
+          </div>
+<div style="
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:12px;
+font-weight:700;
+color:#888;
+">
+VS
+</div>
+            <div class="demo-select-wrap">
+
+              <div class="demo-dropdown-trigger" id="comp-dd-2">
+                  Select hostel...
+              </div>
+
+  <div class="demo-dropdown-menu" id="comp-menu-2">
+    <div>Arogya Hostel</div>
+    <div>Royal Life</div>
+    <div>Ideal Hostel</div>
+  </div>
+
+</div>
+          </div>
+          
+          <div style="display:flex; justify-content:center; position:relative;">
+            <div class="demo-btn" id="comp-demo-btn">Compare Hostels</div>
+          </div>
+          
+          <div id="comp-demo-table" style="background:var(--white); border:1px solid var(--ge); border-radius:10px; overflow:hidden; opacity:0; transform:translateY(15px); position:relative; z-index:5;">
+            <table class="demo-table">
+              <thead>
+                <tr style="background:var(--gf7);">
+                  <th>Feature</th>
+                  <th style="font-size:11px;">Arogya</th>
+                  <th style="font-size:11px;">Ideal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="comp-demo-row">
+                  <td>Rent/mo</td>
+                  <td>₹3,500</td>
+                  <td>₹5,000</td>
+                </tr>
+                <tr class="comp-demo-row">
+                  <td>Distance</td>
+                  <td>0.3 km</td>
+                  <td>0.2 km</td>
+                </tr>
+                <tr>
+                  <td>WiFi</td>
+                  <td style="color:#16a34a">✓</td>
+                  <td style="color:#FF0052">𐩃</td>
+                </tr>
+                <tr>
+                  <td>Food</td>
+                  <td style="color:#16a34a">✓</td>
+                  <td style="color:#FF0052">𐩃</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MAP EXPLORER PREVIEW ══════════ -->
+<section id="feat-map" class="sec feat-sec">
+  <div class="sec__inner">
+    <div class="feat-grid">
+      <div class="feat__content reveal">
+        <p class="feat__label">Map</p>
+        <h2 class="feat__h">Map Explorer</h2>
+        <p class="feat__p">Visualize hostel locations around campus and understand distances more easily. See exactly how far each hostel is from CET before you decide.</p>
+        <a href="map.html" class="feat__link">
+          Open Map Explorer
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="feat__visual reveal" style="position:relative;">
+        
+        <div class="feat__visual-header" style="position:relative; z-index:2; background:rgba(255,255,255,0.92); backdrop-filter:blur(8px);">
+          <div class="feat__visual-dots"><span></span><span></span><span></span></div>
+          <span class="feat__visual-title">Map Explorer — Locations</span>
+        </div>
+        <div class="fv-map-wrap" style="min-height:300px; position:relative; z-index:2;">
+          <!-- grid lines -->
+          <div class="fv-map-grid-line h" style="top:25%"></div>
+          <div class="fv-map-grid-line h" style="top:50%"></div>
+          <div class="fv-map-grid-line h" style="top:75%"></div>
+          <div class="fv-map-grid-line v" style="left:25%"></div>
+          <div class="fv-map-grid-line v" style="left:50%"></div>
+          <div class="fv-map-grid-line v" style="left:75%"></div>
+          <!-- distance rings -->
+          <div class="fv-map-ring" style="width:120px;height:120px;top:50%;left:50%"></div>
+          <div class="fv-map-ring" style="width:210px;height:210px;top:50%;left:50%"></div>
+          <!-- CET -->
+          <div class="fv-map-cet" style="top:50%;left:50%">CET</div>
+          <!-- hostel pins -->
+          <div class="fv-map-pin" style="top:32%;left:36%">H1</div>
+          <div class="fv-map-pin" style="top:44%;left:26%">H2</div>
+          <div class="fv-map-pin" style="top:36%;left:64%">H3</div>
+          <div class="fv-map-pin" style="top:66%;left:62%">H4</div>
+          <div class="fv-map-pin" style="top:28%;left:52%">H5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ══════════ ENQUIRY GUIDE PREVIEW ══════════ -->
+<section id="feat-enquire" class="sec feat-sec feat-sec--alt">
+  <div class="sec__inner">
+    <div class="feat-grid feat-grid--alt">
+
+      <div class="feat__content reveal">
+        <p class="feat__label">Enquire</p>
+        <h2 class="feat__h">Know What To Ask Before You Call</h2>
+
+        <p class="feat__p">
+          Don't get trapped by hidden fees, unclear rules, or misleading
+          promises. Our enquiry guide helps students ask the right questions
+          about rent, food, curfew, facilities, and hostel life before making
+          a decision.
+        </p>
+
+        <a href="enquire.html" class="feat__link">
+          View Enquiry Guide
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M9 4L13 8L9 12"
+                  stroke="white"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="feat__visual reveal">
+
+        <div class="feat__visual-header">
+          <div class="feat__visual-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="feat__visual-title">
+            Smart Enquiry Demo
+          </span>
+        </div>
+
+        <div class="feat__visual-body enquiry-demo">
+
+          <div class="enquiry-chat question-1">
+            💰 What is the monthly rent?
+          </div>
+
+          <div class="enquiry-chat question-2">
+            ⚡ Is electricity included?
+          </div>
+
+          <div class="enquiry-chat question-3">
+            🍽 Is food compulsory?
+          </div>
+
+          <div class="enquiry-chat question-4">
+            🕒 What is the curfew timing?
+          </div>
+
+          <div class="enquiry-chat question-5">
+            👥 Are visitors allowed?
+          </div>
+
+          <div class="enquiry-check">
+            ✓ Questions Ready
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ══════════ STATS ══════════ -->
+<section class="sec stats-sec">
+  <div class="sec__inner">
+    <p class="sec__label reveal">By The Numbers</p>
+    <h2 class="sec__title reveal" style="color:white">Built Around CET Students</h2>
+    <div class="stats-grid">
+      <div class="sstat reveal">
+        <div class="sstat__num" data-target="35" data-suffix="+">0</div>
+        <div class="sstat__lbl">Verified Hostels</div>
+      </div>
+      <div class="sstat reveal">
+        <div class="sstat__num" data-target="100" data-suffix="%">0</div>
+        <div class="sstat__lbl">Free for Students</div>
+      </div>
+      <div class="sstat reveal">
+        <div class="sstat__num" data-target="50" data-suffix="m">0</div>
+        <div class="sstat__lbl">Closest to CET</div>
+      </div>
+      <div class="sstat reveal">
+        <div class="sstat__num" data-target="80" data-suffix="+">0</div>
+        <div class="sstat__lbl">Students Helped</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section id="contact" class="sec">
+  <div class="sec__inner">
+    <p class="sec__label reveal">FAQ</p>
+    <h2 class="sec__title reveal">Common Questions</h2>
+    <p class="sec__sub reveal">Everything you need to know about finding your perfect hostel through അതിഥി CET.</p>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What is അതിഥി CET?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">അതിഥി CET is a student-focused platform for discovering and evaluating verified hostels near the College of Engineering Trivandrum (CET). We help students explore options, compare facilities, and make informed accommodation decisions.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How are hostels verified?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Every hostel listed on അതിഥി CET is personally visited and verified by our team for safety, hygiene, accurate facility information, and compliance with student accommodation standards before going live on the platform.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do I contact hostel owners?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Each hostel listing includes a direct contact button connecting you with the hostel owner via phone or WhatsApp. You can also send an enquiry through our platform and we will forward it promptly.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is അതിഥി CET free to use?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Completely free for students. You can search, browse, compare, and contact hostel owners at no cost. അതിഥി CET is funded by a small listing fee paid by hostel owners, not students.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I list my hostel on അതിഥി CET?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes. If you own or manage a hostel near CET and would like to reach thousands of students, contact us through the platform. Our team will arrange a verification visit and get your listing live.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FINAL CTA ══════════ -->
+<section class="sec finalcta">
+  <div class="finalcta__bg"></div>
+  <!-- Pastel shapes behind final CTA -->
+
+  <div class="sec__inner" style="z-index: 2; position: relative;">
+    <p class="sec__label reveal" style="justify-content:center">Get Started</p>
+    <h2 class="finalcta__h reveal">Ready To Find Your<br>Next Student Home?</h2>
+    <p class="finalcta__sub reveal">Everything you need to find, compare, and choose the right accommodation — all in one place.</p>
+    
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:center;margin-bottom:2rem;">
+      <button class="btn-hero" id="gs-btn" onclick="triggerGetStarted()" style="font-size:15px;padding:1.1rem 2.6rem">
+        Get Started
+        <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M8 3V13M3 8L8 13L13 8" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <!-- Hidden action buttons, revealed on click -->
+      <div class="cta-action-btns" id="cta-action-btns">
+        <a href="browse.html" class="cta-action-btn cta-action-btn--solid">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13"><rect x="1" y="4" width="14" height="3" rx="1" stroke="white" stroke-width="1.3"/><rect x="1" y="9" width="14" height="3" rx="1" stroke="white" stroke-width="1.3"/></svg>
+          Browse Hostels
+        </a>
+        <a href="compare.html" class="cta-action-btn cta-action-btn--outline">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13"><rect x="1" y="3" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="3" width="6" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
+          Compare Hostels
+        </a>
+        <a href="map.html" class="cta-action-btn cta-action-btn--outline">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d="M8 1C5.79 1 4 2.79 4 5c0 3 4 9 4 9s4-6 4-9c0-2.21-1.79-4-4-4zm0 5.5A1.5 1.5 0 1 1 8 3a1.5 1.5 0 0 1 0 3z" fill="currentColor"/></svg>
+          Map Explorer
+        </a>
+        <a href="enquire.html" class="cta-action-btn cta-action-btn--outline">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d="M13 1H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7l3 3V3a2 2 0 0 0-3-2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          Enquiry
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">
+          <div class="footer__brand-mark"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="#0d0d0d"/></svg></div>
+          അതിഥി CET
+        </div>
+        <p class="footer__desc">The smartest way for students to discover, compare, and choose verified hostels near their college campus.</p>
+       
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links">
+          <li><a href="browse.html">Browse Hostels</a></li>
+          <li><a href="compare.html">Compare Hostels</a></li>
+          <li><a href="map.html">Map Explorer</a></li>
+          <li><a href="enquire.html">Enquire</a></li>
+          <li><a href="admin-login.html">Admin</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+     <div class="footer__bottom">
+      <span class="footer__copy">©2026 അതിഥി</span>
+      
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// ── FAQ accordion ──
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+// ── Scroll reveal ──
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+},{threshold:0.12});
+revealEls.forEach(el => io.observe(el));
+
+// ── Everything Students Need Section: Auto stagger card animation on scroll ──
+const overviewSection = document.getElementById('features');
+const overviewObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const cards = e.target.querySelectorAll('.ov-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('visible');
+        }, index * 150);
+      });
+      overviewObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+if (overviewSection) overviewObserver.observe(overviewSection);
+
+// ── Get Started: toggle action buttons dropdown ──
+function triggerGetStarted() {
+  const btns = document.getElementById('cta-action-btns');
+  const btn  = document.getElementById('gs-btn');
+  const open = btns.classList.toggle('open');
+  btn.innerHTML = open
+    ? 'Close <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M4 12L12 4M4 4l8 8" stroke="white" stroke-width="1.7" stroke-linecap="round"/></svg>'
+    : 'Get Started <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M8 3V13M3 8L8 13L13 8" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+// ── Hero Section: typing animation ──
+const words = ["HOME", "HOSTEL"];
+let wordIdx = 0;
+let charIdx = words[0].length; 
+let isDeleting = false;
+const typedWordEl = document.getElementById('typed-word');
+const underlineEl = document.querySelector('.hand-drawn-underline');
+
+function typeAnimation() {
+  const currentWord = words[wordIdx];
+  
+  if (isDeleting) {
+    underlineEl.classList.remove('active');
+    charIdx--;
+    typedWordEl.textContent = currentWord.substring(0, charIdx);
+  } else {
+    charIdx++;
+    typedWordEl.textContent = currentWord.substring(0, charIdx);
+  }
+  
+  let speed = isDeleting ? 85 : 140;
+  
+  if (!isDeleting && charIdx === currentWord.length) {
+    underlineEl.classList.add('active');
+    isDeleting = true;
+    setTimeout(typeAnimation, 3000); 
+    return;
+  }
+  
+  if (isDeleting && charIdx === 0) {
+    isDeleting = false;
+    wordIdx = (wordIdx + 1) % words.length;
+    setTimeout(typeAnimation, 400); 
+    return;
+  }
+  
+  setTimeout(typeAnimation, speed);
+}
+
+// Start animation on load
+window.addEventListener('load', () => {
+  underlineEl.classList.add('active');
+  setTimeout(() => {
+    typeAnimation();
+  }, 3000);
+});
+
+// ── Stats Section: Number Animation on scroll ──
+const statsSection = document.querySelector('.stats-sec');
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const nums = e.target.querySelectorAll('.sstat__num');
+      nums.forEach(numEl => {
+        const target = parseFloat(numEl.getAttribute('data-target'));
+        const suffix = numEl.getAttribute('data-suffix') || '';
+        const decimals = parseInt(numEl.getAttribute('data-decimals') || '0');
+        const duration = 2000; 
+        const startTime = performance.now();
+        
+        function updateCount(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easeProgress = progress * (2 - progress);
+          const currentVal = easeProgress * target;
+          
+          numEl.textContent = currentVal.toFixed(decimals).toLocaleString() + suffix;
+          
+          if (progress < 1) {
+            requestAnimationFrame(updateCount);
+          } else {
+            numEl.textContent = target.toFixed(decimals).toLocaleString() + suffix;
+          }
+        }
+        requestAnimationFrame(updateCount);
+      });
+      statsObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+if (statsSection) statsObserver.observe(statsSection);
+
+// ── BROWSE DEMO ANIMATION LOOP ──
+function startBrowseDemo() {
+  const cursor = document.getElementById('browse-cursor');
+  const searchInput = document.getElementById('browse-search-text');
+  const chips = document.querySelectorAll('.demo-chip');
+  const cards = document.querySelectorAll('.demo-card-item');
+  
+  if (!cursor || !searchInput) return;
+
+  // Reset state
+  //added
+  cursor.style.top='17%';
+  cursor.style.left='10%';
+  //added
+  cursor.style.opacity = '1';
+  searchInput.textContent = '';
+  chips.forEach(c => c.classList.remove('active'));
+  chips[0].classList.add('active'); 
+  cards.forEach(c => {
+    c.style.opacity = '0.35';
+    c.style.transform = 'translateY(10px) scale(0.98)';
+    c.style.borderColor = '#e5e7eb';
+    c.style.boxShadow = 'none';
+  });
+  
+  // Timeline
+  setTimeout(() => {
+    cursor.style.top = '15%';
+    cursor.style.left = '30%';
+  }, 800);
+
+  setTimeout(() => {
+
+  const text = "Hostel";
+
+  searchInput.textContent = "";
+
+  let i = 0;
+
+  const typing = setInterval(() => {
+
+    searchInput.textContent += text[i];
+
+    i++;
+
+    if(i >= text.length){
+      clearInterval(typing);
+    }
+
+  }, 120);
+
+}, 1700);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(0.85)';
+  }, 1700);
+
+setTimeout(() => {
+
+  cards.forEach(c => {
+
+    c.style.opacity = '1';
+    c.style.transform = 'translateY(0) scale(1)';
+
+  });
+
+}, 3600);
+
+setTimeout(() => {
+
+  cursor.style.top = '36%';
+  cursor.style.left = '22%';
+
+}, 4800);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(0.85)';
+    chips.forEach(c => c.classList.remove('active'));
+    chips[1].classList.add('active'); 
+  }, 5100);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(1)';
+    cards[2].style.opacity = '0';
+
+cards[2].style.transform =
+'translateY(20px) scale(.95)';
+  }, 5400);
+  
+  setTimeout(() => {
+    cursor.style.opacity = '0';
+  }, 7200);
+  
+  setTimeout(() => {
+    startBrowseDemo();
+  }, 9500);
+}
+
+// ── COMPARE DEMO ANIMATION LOOP ──
+function startCompareDemo() {
+  const cursor = document.getElementById('compare-cursor');
+  const d1 = document.getElementById('comp-dd-1');
+  const d2 = document.getElementById('comp-dd-2');
+  const btn = document.getElementById('comp-demo-btn');
+  const table = document.getElementById('comp-demo-table');
+  const rows = document.querySelectorAll('.comp-demo-row');
+  const menu1 = document.getElementById('comp-menu-1');
+  const menu2 = document.getElementById('comp-menu-2');
+  
+  if (!cursor || !d1 || !d2) return;
+
+  // Reset
+  cursor.style.top = '80%';
+  cursor.style.left = '70%';
+  cursor.style.opacity = '1';
+  d1.textContent = 'Select hostel...';
+  d2.textContent = 'Select hostel...';
+  menu1.classList.remove('open');
+  menu2.classList.remove('open');
+  btn.classList.remove('active');
+  table.style.opacity = '0';
+  table.style.transform = 'translateY(20px) scale(.96)';
+  rows.forEach(r => r.classList.remove('highlight'));
+  
+  setTimeout(() => {
+    cursor.style.top = '14%';
+    cursor.style.left = '18%';
+  }, 800);
+  
+  setTimeout(() => {
+  cursor.style.transform = 'scale(0.85)';
+  menu1.classList.add('open');
+}, 1700);
+
+  setTimeout(() => {
+  d1.textContent = 'Arogya Hostel';
+  menu1.classList.remove('open');
+}, 2300);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(1)';
+    cursor.style.top = '18%';
+    cursor.style.left = '67%';
+  }, 2100);
+  
+  setTimeout(() => {
+  cursor.style.transform = 'scale(0.85)';
+  menu2.classList.add('open');
+}, 3000);
+
+  setTimeout(() => {
+  d2.textContent = 'Ideal Hostel';
+  menu2.classList.remove('open');
+  btn.classList.add('active');
+}, 3600);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(1)';
+    cursor.style.top = '29%';
+    cursor.style.left = '48%';
+  }, 3400);
+  
+  setTimeout(() => {
+  cursor.style.transform = 'scale(0.85)';
+
+  btn.style.transform = 'scale(.92)';
+
+  btn.style.boxShadow =
+    'inset 0 2px 6px rgba(0,0,0,.25)';
+}, 4300);
+  
+  setTimeout(() => {
+
+  cursor.style.transform = 'scale(1)';
+
+  btn.style.transform = 'none';
+  btn.style.boxShadow = '';
+
+  table.style.opacity = '1';
+
+  table.style.transform =
+    'translateY(0) scale(1)';
+
+}, 4500);
+  
+  setTimeout(() => {
+    rows[1].classList.add('highlight'); 
+  }, 5500);
+  
+  setTimeout(() => {
+    cursor.style.opacity = '0';
+  }, 7500);
+  
+  setTimeout(() => {
+    startCompareDemo();
+  }, 9500);
+}
+
+// ── DATABASE DEMO ANIMATION LOOP ──
+function startDatabaseDemo() {
+  const cursor = document.getElementById('db-cursor');
+  const searchInput = document.getElementById('db-search-input');
+  const sortBadge = document.getElementById('db-sort-badge');
+  const tableRows = document.querySelectorAll('.db-demo-row');
+  
+  if (!cursor || !searchInput) return;
+
+  // Reset
+  cursor.style.top = '80%';
+  cursor.style.left = '75%';
+  cursor.style.opacity = '1';
+  searchInput.textContent = 'Search all hostels...';
+  sortBadge.textContent = 'Sort: Nearest';
+  tableRows.forEach((r) => {
+    r.style.opacity = '1';
+    r.style.transform = 'none';
+    r.style.background = 'none';
+  });
+  
+  setTimeout(() => {
+    cursor.style.top = '15%';
+    cursor.style.left = '25%';
+  }, 800);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(0.85)';
+    searchInput.textContent = '';
+  }, 1700);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(1)';
+    const text = 'CET';
+    let i = 0;
+    const interval = setInterval(() => {
+      searchInput.textContent += text[i];
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 100);
+  }, 1900);
+  
+  setTimeout(() => {
+    tableRows.forEach((r, idx) => {
+      if (idx === 0 || idx === 1) {
+        r.style.opacity = '1';
+        r.style.transform = 'scale(1.02)';
+      } else {
+        r.style.opacity = '0.15';
+      }
+    });
+  }, 2600);
+  
+  setTimeout(() => {
+    cursor.style.top = '15%';
+    cursor.style.left = '80%';
+  }, 3300);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(0.85)';
+    sortBadge.textContent = 'Sort: Price: Lowest';
+  }, 4200);
+  
+  setTimeout(() => {
+    cursor.style.transform = 'scale(1)';
+    tableRows[0].style.background = 'var(--pastel-sage)';
+    tableRows[1].style.background = 'var(--pastel-sage)';
+  }, 4500);
+  
+  setTimeout(() => {
+    cursor.style.opacity = '0';
+  }, 6800);
+  
+  setTimeout(() => {
+    startDatabaseDemo();
+  }, 8800);
+}
+
+window.addEventListener('load', () => {
+  startBrowseDemo();
+  startCompareDemo();
+  startDatabaseDemo();
+});
+  // Select the hamburger button and the links menu
+  const navHam = document.querySelector('.nav__ham');
+  const navLinks = document.querySelector('.nav__links');
+  const navOverlay = document.getElementById('nav-overlay');
+
+  function closeNav() {
+    navHam.classList.remove('open');
+    navLinks.classList.remove('open');
+    navOverlay.classList.remove('open');
+  }
+
+  if (navHam && navLinks) {
+    navHam.addEventListener('click', () => {
+      const opening = !navLinks.classList.contains('open');
+      navHam.classList.toggle('open');
+      navLinks.classList.toggle('open');
+      navOverlay.classList.toggle('open', opening);
+    });
+    navOverlay.addEventListener('click', closeNav);
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+  }
+  
+  // College illustration fade-in
+  const heroImg = document.querySelector('.hero__img');
+  if(heroImg){
+    setTimeout(() => heroImg.classList.add('visible'), 600);
+  }
+  
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Hostels — അതിഥി CET</title>
+<meta name="description" content="Compare student hostels near CET side by side. Evaluate rent, facilities, advantages, and read detailed profiles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ════ COMPARE PAGE SPECIFIC ════ */
+.compare-wrap{
+  position:relative;z-index:5;
+  max-width:var(--max);margin:0 auto;
+  padding:2.5rem var(--px) 6rem;
+}
+
+/* ── SELECTOR ROW ── */
+.selector-row{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:1.5rem;
+  align-items:center;
+  margin-bottom:2rem;
+}
+.selector-vs{
+  font-size:12px;font-weight:800;letter-spacing:2px;
+  color:var(--g9);text-transform:uppercase;
+  text-align:center;padding:.4rem .8rem;
+  border:1px solid var(--ge);border-radius:20px;
+  background:var(--gf3);
+}
+.selector-card{
+  background:var(--white);border:1.5px solid var(--ge);
+  border-radius:var(--radius);padding:1.4rem 1.6rem;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.selector-card__label{
+  font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--g9);margin-bottom:.7rem;
+}
+.selector-card__select{
+  width:100%;padding:.7rem 1rem;
+  border:1.5px solid var(--ge);border-radius:10px;
+  font-family:inherit;font-size:14px;color:var(--black);
+  background:var(--white);outline:none;cursor:pointer;
+  transition:border-color .18s;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right .75rem center;
+  background-size:16px;
+  position:relative;z-index:2;
+}
+.selector-card__select:focus{border-color:#aaa}
+.selector-card__meta{
+  display:flex;align-items:center;gap:.5rem;margin-top:.7rem;
+  min-height:22px;flex-wrap:wrap;position:relative;z-index:2;
+}
+.selector-card__badge{
+  font-size:11px;font-weight:600;padding:.22rem .65rem;
+  border-radius:20px;background:var(--gf3);
+  border:1px solid var(--ge);color:var(--g6);
+}
+
+.compare-btn-row{
+  display:flex;justify-content:center;margin-bottom:3rem;
+}
+
+/* ── SIDE-BY-SIDE CARDS ── */
+.side-cards{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+  margin-bottom:2.5rem;
+}
+.comp-card{
+  background:var(--white);border:1px solid var(--ge);
+  border-radius:var(--radius);padding:1.5rem;
+  box-shadow:var(--shadow);cursor:pointer;
+  transition:transform .22s, box-shadow .22s, border-color .22s;
+}
+.comp-card:hover{
+  transform:translateY(-4px);box-shadow:var(--shadow-lg);
+  border-color:var(--black);
+}
+.comp-card__title{font-size:16px;font-weight:900;letter-spacing:-.4px;margin-bottom:.3rem;color:var(--black)}
+.comp-card__meta{display:flex;gap:.4rem;margin-bottom:.8rem;align-items:center}
+.comp-card__badge{
+  font-size:10.5px;font-weight:600;padding:.15rem .5rem;border-radius:4px;
+  background:var(--gf7);border:1px solid var(--ge);color:var(--g6);
+}
+.comp-card__price{font-size:22px;font-weight:900;letter-spacing:-.5px;color:var(--black)}
+.comp-card__price span{font-size:12px;font-weight:400;color:var(--g9)}
+.comp-card__details-link{
+  font-size:12px;font-weight:700;color:var(--g9);margin-top:1rem;
+  display:flex;align-items:center;gap:4px;
+}
+.comp-card:hover .comp-card__details-link{color:var(--black)}
+
+/* ── COMPARISON TABLE ── */
+.compare-panel{
+  background:var(--white);border:1px solid var(--ge);
+  border-radius:20px;overflow:hidden;box-shadow:var(--shadow);
+  margin-bottom:3rem;
+}
+.compare-table{width:100%;border-collapse:collapse;font-size:14px}
+.compare-table thead tr{border-bottom:2px solid var(--ge)}
+.compare-table thead th{
+  padding:1.3rem 1.6rem;font-size:13px;font-weight:700;
+  background:var(--gf7);
+}
+.compare-table thead th:first-child{
+  text-align:left;color:var(--g9);width:220px;
+}
+.compare-table thead th:not(:first-child){
+  text-align:center;color:var(--black);min-width:220px;
+}
+.th-hostel-name{
+  font-size:15px;font-weight:800;letter-spacing:-.3px;display:block;margin-bottom:.3rem;
+  cursor:pointer;text-decoration:underline;text-decoration-style:dotted;
+}
+.th-hostel-name:hover{color:var(--g6)}
+.th-hostel-sub{font-size:12px;font-weight:500;color:var(--g6)}
+
+.compare-table tbody tr{border-bottom:1px solid var(--ge);transition:background .15s}
+.compare-table tbody tr:last-child{border-bottom:none}
+.compare-table tbody tr:hover{background:var(--gf7)}
+.compare-table tbody td{
+  padding:1.1rem 1.6rem;text-align:center;
+  color:var(--g4);font-weight:500;
+}
+.compare-table tbody td:first-child{
+  text-align:left;color:var(--g9);
+  font-size:11.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.cat-group{
+  padding:.6rem 1.6rem;background:var(--gf3);
+  border-bottom:1px solid var(--ge);
+}
+.cat-group td{
+  font-size:10.5px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--g9);padding:.4rem 1.6rem;
+  text-align:left !important;
+}
+.check{color:#16a34a;font-size:17px;font-weight:700}
+.cross{color:#dc2626;font-size:17px;font-weight:700}
+.placeholder-cell{
+  height:16px;border-radius:6px;background:var(--ge);
+  width:80px;display:inline-block;
+}
+
+/* ── ADVANTAGES SECTION ── */
+.advantages-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+  margin-bottom:3rem;
+}
+.adv-card{
+  background:var(--white);border:1px solid var(--ge);
+  border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);
+}
+.adv-card__title{
+  font-size:13px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;color:var(--g9);margin-bottom:1.2rem;
+}
+.adv-list{display:flex;flex-direction:column;gap:.8rem;list-style:none}
+.adv-item{
+  display:flex;align-items:flex-start;gap:.65rem;
+  font-size:14px;color:var(--g4);line-height:1.45;
+}
+.adv-item svg{width:16px;height:16px;color:#16a34a;flex-shrink:0;margin-top:2px}
+
+/* ── VERDICT SECTION ── */
+.verdict-card{
+  background:var(--white);border:1.5px solid var(--ge);
+  border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);
+  margin-bottom:3rem;position:relative;overflow:hidden;
+}
+.verdict-card__badge{
+  position:absolute;top:1.5rem;right:1.5rem;
+  font-size:10px;font-weight:800;letter-spacing:1.5px;
+  background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;
+  padding:.3rem .7rem;border-radius:20px;text-transform:uppercase;
+}
+.verdict-card__title{font-size:18px;font-weight:900;letter-spacing:-.5px;margin-bottom:.8rem}
+.verdict-card__text{font-size:14.5px;color:var(--g4);line-height:1.7}
+
+/* Empty / prompt state */
+.compare-empty{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:1rem;padding:5rem 2rem;text-align:center;
+}
+.compare-empty__icon{
+  width:64px;height:64px;background:var(--gf3);border:1px solid var(--ge);
+  border-radius:16px;display:grid;place-items:center;margin-bottom:.5rem;
+}
+.compare-empty__icon svg{width:30px;height:30px;opacity:.4}
+.compare-empty__h{font-size:18px;font-weight:700;letter-spacing:-.5px;margin-bottom:.5rem}
+.compare-empty__p{font-size:14px;color:var(--g6);line-height:1.65;max-width:380px}
+
+/* ── DETAILS DRAWER SYSTEM ── */
+.drawer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.4);
+  z-index:999;opacity:0;pointer-events:none;
+  transition:opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter:blur(4px);
+}
+.drawer-overlay.open{opacity:1;pointer-events:auto}
+
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:520px;
+  background:var(--white);border-left:1px solid var(--ge);
+  box-shadow:-8px 0 40px rgba(0,0,0,0.15);z-index:1000;
+  transform:translateX(100%);
+  transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateX(0)}
+.drawer__header{
+  padding:1.5rem var(--px);border-bottom:1px solid var(--ge);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--gf7);
+}
+.drawer__close{
+  background:none;border:none;font-size:24px;color:var(--g6);
+  cursor:pointer;display:grid;place-items:center;width:32px;height:32px;
+  border-radius:50%;transition:background .18s, color .18s;
+}
+.drawer__close:hover{background:var(--ge);color:var(--black)}
+.drawer__title{font-size:18px;font-weight:900;letter-spacing:-.5px}
+.drawer__subtitle{font-size:12.5px;color:var(--g6);margin-top:.15rem}
+.drawer__body{
+  flex:1;overflow-y:auto;padding:2rem var(--px);
+  display:flex;flex-direction:column;gap:2.2rem;
+}
+.d-sec{display:flex;flex-direction:column;gap:.7rem}
+.d-sec__title{
+  font-size:11px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--g9);
+  border-bottom:1px solid var(--ge);padding-bottom:.4rem;
+}
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.d-item{display:flex;flex-direction:column;gap:.15rem}
+.d-label{font-size:11.5px;color:var(--g9);font-weight:600}
+.d-val{font-size:13.5px;color:var(--black);font-weight:700}
+.d-amenities{display:flex;flex-wrap:wrap;gap:.4rem}
+.d-amenity-badge{
+  font-size:11.5px;font-weight:600;padding:.3rem .75rem;
+  border-radius:20px;background:var(--gf3);border:1px solid var(--ge);
+  color:var(--g4);
+}
+.d-amenity-badge.yes{background:#edfdf6;color:#047857;border-color:#a7f3d0}
+.d-amenity-badge.no{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+.d-rating-bar-wrap{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.d-rating-label{font-size:12.5px;color:var(--g4);font-weight:500;width:90px}
+.d-rating-bar{flex:1;height:6px;background:var(--ge);border-radius:3px;position:relative}
+.d-rating-fill{position:absolute;top:0;left:0;bottom:0;background:var(--black);border-radius:3px}
+.d-rating-score{font-size:12px;font-weight:700;color:var(--black);width:20px;text-align:right}
+.drawer__footer{
+  padding:1.2rem var(--px);border-top:1px solid var(--ge);
+  background:var(--gf7);display:flex;gap:.8rem;
+}
+.drawer-btn{
+  flex:1;padding:.8rem;border-radius:12px;font-family:inherit;
+  font-size:13.5px;font-weight:700;text-align:center;text-decoration:none;
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .15s, background .15s;
+}
+.drawer-btn--primary{background:var(--black);color:var(--white);border:none}
+.drawer-btn--primary:hover{background:#222;transform:translateY(-1px)}
+.drawer-btn--outline{background:var(--white);color:var(--black);border:1.5px solid var(--ge)}
+.drawer-btn--outline:hover{background:var(--gf3);transform:translateY(-1px);border-color:var(--gc)}
+
+/* Responsive */
+@media(max-width:860px){
+  .selector-row{grid-template-columns:1fr;gap:1rem}
+  .selector-vs{display:none}
+  .side-cards{grid-template-columns:1fr;gap:1rem}
+  .advantages-row{grid-template-columns:1fr;gap:1.5rem}
+  .compare-table thead th{min-width:150px;padding:1rem}
+  .compare-table tbody td{padding:.8rem 1rem}
+  .compare-table tbody td:first-child{width:140px}
+  .drawer{width:100%}
+}
+@media(max-width:600px){
+  .compare-wrap{padding:1.5rem var(--px) 4rem}
+}
+/* Styling for mobile screens (under 768px width) */
+@media (max-width: 768px) {
+  .nav__ham {
+    display: flex; /* Show the 3 bars */
+  }
+  
+  .nav__links{
+    visibility:hidden;
+    opacity:0;
+
+    transform:translateX(120%);
+
+    transition:
+      transform .3s cubic-bezier(0.16,1,0.3,1),
+      opacity .2s ease;
+
+    pointer-events:none;
+}
+
+.nav__links.open{
+    visibility:visible;
+    opacity:1;
+
+    transform:translateX(0);
+
+    pointer-events:auto;
+}
+
+  /* Animate the 3 bars into an 'X' shape when open */
+  .nav__ham.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav__ham.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav__ham.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+/* ══════════ MOBILE RESPONSIVE NAV ══════════ */
+@media (max-width: 768px) {
+  /* Hide the desktop horizontal link styling and configure the vertical drawer */
+  .nav__links {
+    display: flex;
+    flex-direction: column; /* Stack links vertically */
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen to the right by default */
+    width: 280px; /* Drawer width */
+    height: 100vh; /* Full viewport height */
+    background: #ffffff; /* Solid white background for drawer */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05); /* Soft shadow on the left edge */
+    padding: 6rem 2.5rem; /* Space at the top so the close button is clear */
+    gap: 1.8rem; /* Vertical space between each link */
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth slide animation */
+    z-index: 105;
+  }
+
+  /* When the JavaScript adds the "open" class, slide it into view */
+  .nav__links.open {
+    right: 0;
+  }
+
+  /* Style the links inside the mobile drawer */
+  .nav__links li {
+    list-style: none;
+    width: 100%;
+  }
+
+  .nav__links a {
+    display: block;
+    font-size: 18px; /* Slightly larger text for easy tapping on mobile */
+    font-weight: 600;
+    color: #71717a; /* Muted grey */
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f5; /* Subtle separation line */
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  /* Hover and active states for links inside the drawer */
+  .nav__links a:hover,
+  .nav__links a.active {
+    color: #0d0d0d; /* Black */
+    padding-left: 6px; /* Tiny slide-in effect on hover */
+  }
+
+  /* Ensure the hamburger button stays on top of the menu */
+  .nav__ham {
+    display: flex;
+    position: relative;
+    z-index: 110;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="hosteltxt.html">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/></svg>
+      </div>
+      <span class="nav__logo-name">അതിഥി CET</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="hosteltxt.html">Home</a></li>
+      <li><a href="browse.html">Browse Hostels</a></li>
+      <li><a href="compare.html"class="active">Compare</a></li>
+      <li><a href="map.html">Map</a></li>
+    
+      <li><a href="enquire.html">Enquire</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+    </ul>
+    <button class="nav__ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ══════════ PAGE HERO ══════════ -->
+<div class="page-hero" style="position:relative; overflow:hidden;">
+  <!-- Pastel shapes behind hero -->
+  <div class="dec-shape dec-shape--lavender" style="top:-20px; right:-20px; width:220px; height:220px; opacity:0.6;"></div>
+  <div class="dec-shape dec-shape--beige" style="bottom:-30px; left:10%; width:200px; height:200px; opacity:0.5;"></div>
+
+  <div class="page-hero__inner" style="position:relative; z-index:2;">
+    <p class="page-hero__label">Comparison Tool</p>
+    <h1 class="page-hero__h1">Compare Hostels</h1>
+    <p class="page-hero__sub">Select any two student hostels and evaluate pricing, facilities, and distance side by side before making your choice.</p>
+  </div>
+</div>
+
+<!-- ══════════ COMPARE CONTENT ══════════ -->
+<div class="compare-wrap">
+
+  <!-- Pastel background shape -->
+  <div class="dec-shape dec-shape--blue" style="top:25%; right:-5%; width:300px; height:300px; opacity:0.4;"></div>
+  <div class="dec-shape dec-shape--sage" style="bottom:10%; left:-5%; width:260px; height:260px; opacity:0.4;"></div>
+
+  <svg class="scribble-svg" style="top:18%; left:-5%; width:260px; height:90px; opacity:0.7" viewBox="0 0 260 90">
+    <path class="scribble-path accent-lavender" d="M10,25 Q120,80 250,15" />
+  </svg>
+
+  <!-- SELECTOR ROW -->
+  <div class="selector-row reveal">
+    <div class="selector-card">
+      <div class="selector-card__label">First Hostel</div>
+      <select class="selector-card__select" id="hostel-a" >
+        <!-- Options populated dynamically -->
+      </select>
+      <div class="selector-card__meta" id="meta-a">
+        <span style="font-size:12.5px;color:var(--gc)">No hostel selected</span>
+      </div>
+    </div>
+
+    <div class="selector-vs">VS</div>
+
+    <div class="selector-card">
+      <div class="selector-card__label">Second Hostel</div>
+      <select class="selector-card__select" id="hostel-b" >
+        <!-- Options populated dynamically -->
+      </select>
+      <div class="selector-card__meta" id="meta-b">
+        <span style="font-size:12.5px;color:var(--gc)">No hostel selected</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-btn-row reveal">
+    <button class="btn-primary" onclick="runComparison()" id="compare-btn" style="opacity:.5;pointer-events:none">
+      Compare Hostels
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <!-- INITIAL / EMPTY STATE -->
+  <div class="compare-panel reveal" id="compare-empty-panel">
+    <div class="compare-empty" id="compare-empty">
+      <div class="compare-empty__icon">
+        <svg viewBox="0 0 30 30" fill="none"><rect x="2" y="4" width="11" height="22" rx="2" stroke="#000" stroke-width="1.5"/><rect x="17" y="4" width="11" height="22" rx="2" stroke="#000" stroke-width="1.5"/></svg>
+      </div>
+      <div class="compare-empty__h">Select two hostels to compare</div>
+      <div class="compare-empty__p">Use the dropdowns above to choose two hostels, then click Compare to see a detailed side-by-side breakdown and quick verdict.</div>
+    </div>
+  </div>
+
+  <!-- COMPARISON RESULTS (HIDDEN BY DEFAULT) -->
+  <div id="compare-results" style="display:none;">
+    
+    <!-- SIDE-BY-SIDE CARDS -->
+    <div class="side-cards">
+      <div class="comp-card" id="card-a" onclick="openDetailsFromCompare('a')">
+        <span class="comp-card__badge" id="card-a-badge" style="float:right">Boys</span>
+        <h3 class="comp-card__title" id="card-a-title">CET Men's Hostel</h3>
+        <div class="comp-card__meta">
+          <span class="comp-card__badge" id="card-a-dist">📍 0.5 km</span>
+          <span class="comp-card__badge" id="card-a-rating">⭐ 4.2</span>
+        </div>
+        <div class="comp-card__price" id="card-a-price">₹3,500<span>/mo</span></div>
+        <div class="comp-card__details-link">
+          Read Detailed Profile
+          <svg viewBox="0 0 16 16" fill="none" width="12" height="12"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      
+      <div class="comp-card" id="card-b" onclick="openDetailsFromCompare('b')">
+        <span class="comp-card__badge" id="card-b-badge" style="float:right">Girls</span>
+        <h3 class="comp-card__title" id="card-b-title">CET Ladies Hostel</h3>
+        <div class="comp-card__meta">
+          <span class="comp-card__badge" id="card-b-dist">📍 0.4 km</span>
+          <span class="comp-card__badge" id="card-b-rating">⭐ 4.4</span>
+        </div>
+        <div class="comp-card__price" id="card-b-price">₹3,500<span>/mo</span></div>
+        <div class="comp-card__details-link">
+          Read Detailed Profile
+          <svg viewBox="0 0 16 16" fill="none" width="12" height="12"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="compare-panel">
+      <div style="overflow-x:auto">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th id="th-a">
+                <span class="th-hostel-name" id="th-a-name" onclick="openDetailsFromCompare('a')">Hostel A</span>
+                <span class="th-hostel-sub" id="th-a-sub">—</span>
+              </th>
+              <th id="th-b">
+                <span class="th-hostel-name" id="th-b-name" onclick="openDetailsFromCompare('b')">Hostel B</span>
+                <span class="th-hostel-sub" id="th-b-sub">—</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Pricing -->
+            <tr class="cat-group"><td colspan="3">Pricing</td></tr>
+            <tr>
+              <td>Monthly Rent</td>
+              <td style="font-weight:700" id="val-a-rent">—</td>
+              <td style="font-weight:700" id="val-b-rent">—</td>
+            </tr>
+            <tr>
+              <td>Food Included</td>
+              <td id="val-a-food">—</td>
+              <td id="val-b-food">—</td>
+            </tr>
+            <tr>
+              <td>Electricity Included</td>
+              <td id="val-a-elec">—</td>
+              <td id="val-b-elec">—</td>
+            </tr>
+            <tr>
+              <td>Water Included</td>
+              <td id="val-a-water">—</td>
+              <td id="val-b-water">—</td>
+            </tr>
+            <!-- Location -->
+            <tr class="cat-group"><td colspan="3">Location</td></tr>
+            <tr>
+              <td>Distance from CET</td>
+              <td id="val-a-dist">—</td>
+              <td id="val-b-dist">—</td>
+            </tr>
+            <tr>
+              <td>Area</td>
+              <td id="val-a-area">—</td>
+              <td id="val-b-area">—</td>
+            </tr>
+            <!-- Facilities -->
+            <tr class="cat-group"><td colspan="3">Facilities</td></tr>
+            <tr>
+              <td>WiFi</td>
+              <td id="val-a-wifi">—</td>
+              <td id="val-b-wifi">—</td>
+            </tr>
+            <tr>
+              <td>AC Rooms</td>
+              <td id="val-a-ac">—</td>
+              <td id="val-b-ac">—</td>
+            </tr>
+            <tr>
+              <td>Laundry</td>
+              <td id="val-a-laundry">—</td>
+              <td id="val-b-laundry">—</td>
+            </tr>
+            <tr>
+              <td>Security</td>
+              <td id="val-a-security">—</td>
+              <td id="val-b-security">—</td>
+            </tr>
+            <tr>
+              <td>Parking</td>
+              <td id="val-a-parking">—</td>
+              <td id="val-b-parking">—</td>
+            </tr>
+            <!-- Room -->
+            <tr class="cat-group"><td colspan="3">Room details</td></tr>
+            <tr>
+              <td>Room Type</td>
+              <td id="val-a-room">—</td>
+              <td id="val-b-room">—</td>
+            </tr>
+            <tr>
+              <td>Capacity</td>
+              <td id="val-a-capacity">—</td>
+              <td id="val-b-capacity">—</td>
+            </tr>
+            <tr>
+              <td>Availability</td>
+              <td id="val-a-avail">—</td>
+              <td id="val-b-avail">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ADVANTAGES COMPARISON -->
+    <div class="advantages-row">
+      <div class="adv-card">
+        <h4 class="adv-card__title" id="adv-title-a">Key Advantages of A</h4>
+        <ul class="adv-list" id="adv-list-a">
+          <!-- Filled dynamically -->
+        </ul>
+      </div>
+      <div class="adv-card">
+        <h4 class="adv-card__title" id="adv-title-b">Key Advantages of B</h4>
+        <ul class="adv-list" id="adv-list-b">
+          <!-- Filled dynamically -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- QUICK VERDICT CARD -->
+    <div class="verdict-card">
+      <span class="verdict-card__badge">Hub Verdict</span>
+      <h4 class="verdict-card__title">Comparison Summary</h4>
+      <p class="verdict-card__text" id="verdict-text">Pick Hostel A if you prefer on-campus living...</p>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ══════════ DETAILED INFORMATION DRAWER (Airbnb style) ══════════ -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer__header">
+    <div>
+      <h2 class="drawer__title" id="d-name">Hostel Detail Profile</h2>
+      <div class="drawer__subtitle" id="d-area-badge">Area · Gender</div>
+    </div>
+    <button class="drawer__close" onclick="closeDrawer()">&times;</button>
+  </div>
+  <div class="drawer__body">
+    <!-- Overview -->
+    <div class="d-sec">
+      <span class="d-sec__title">Overview</span>
+      <p id="d-summary" style="font-size:14px; color:var(--g6); line-height:1.65; margin-bottom:.5rem;">Detailed summary of the hostel.</p>
+      <div class="d-grid">
+        <div class="d-item"><span class="d-label">Distance from CET</span><span class="d-val" id="d-distance">0.0 km</span></div>
+        <div class="d-item"><span class="d-label">Capacity</span><span class="d-val" id="d-capacity">0 students</span></div>
+      </div>
+    </div>
+
+    <!-- Pricing & Rooms -->
+    <div class="d-sec">
+      <span class="d-sec__title">Pricing & Rooms</span>
+      <div class="d-grid">
+        <div class="d-item"><span class="d-label">Monthly Rent</span><span class="d-val" style="font-size:17px; color:var(--black)" id="d-price">₹0</span></div>
+        <div class="d-item"><span class="d-label">Room Types</span><span class="d-val" id="d-room-types">Room Types</span></div>
+        <div class="d-item"><span class="d-label">Vacancy Status</span><span class="d-val" id="d-vacancy">Vacancy</span></div>
+        <div class="d-item"><span class="d-label">Deposit</span><span class="d-val">₹5,000 (Refundable)</span></div>
+      </div>
+    </div>
+
+    <!-- Amenities -->
+    <div class="d-sec">
+      <span class="d-sec__title">Amenities</span>
+      <div class="d-amenities" id="d-amenities-list">
+        <!-- badges -->
+      </div>
+    </div>
+
+    <!-- Rating Breakdown -->
+    <div class="d-sec">
+      <span class="d-sec__title">Rating Breakdown (HPA)</span>
+      <div style="display:flex; flex-direction:column; gap:.6rem;">
+        <div class="d-rating-bar-wrap">
+          <span class="d-rating-label">Cleanliness</span>
+          <div class="d-rating-bar"><div class="d-rating-fill" style="width: 85%"></div></div>
+          <span class="d-rating-score">4.2</span>
+        </div>
+        <div class="d-rating-bar-wrap">
+          <span class="d-rating-label">Food Quality</span>
+          <div class="d-rating-bar"><div class="d-rating-fill" style="width: 80%"></div></div>
+          <span class="d-rating-score">4.0</span>
+        </div>
+        <div class="d-rating-bar-wrap">
+          <span class="d-rating-label">Security</span>
+          <div class="d-rating-bar"><div class="d-rating-fill" style="width: 90%"></div></div>
+          <span class="d-rating-score">4.5</span>
+        </div>
+        <div class="d-rating-bar-wrap">
+          <span class="d-rating-label">Facilities</span>
+          <div class="d-rating-bar"><div class="d-rating-fill" style="width: 80%"></div></div>
+          <span class="d-rating-score">4.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rules -->
+    <div class="d-sec">
+      <span class="d-sec__title">Hostel Rules</span>
+      <div style="font-size:13.5px; color:var(--g6); line-height:1.6; display:flex; flex-direction:column; gap:.4rem;" id="d-rules">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+
+    <!-- Nearby places -->
+    <div class="d-sec">
+      <span class="d-sec__title">Nearby Places</span>
+      <div style="font-size:13.5px; color:var(--g6); line-height:1.6; display:flex; flex-direction:column; gap:.4rem;" id="d-nearby">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+
+    <!-- Contact details -->
+    <div class="d-sec">
+      <span class="d-sec__title">Contact Details</span>
+      <div class="d-grid">
+        <div class="d-item"><span class="d-label">Phone</span><span class="d-val" id="d-phone">+91 000 000 0000</span></div>
+        <div class="d-item"><span class="d-label">Email</span><span class="d-val" id="d-email">contact@hostel.com</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="drawer__footer">
+    <a href="#" class="drawer-btn drawer-btn--primary" id="d-call-btn">📞 Call Owner</a>
+    <a href="#" class="drawer-btn drawer-btn--outline" target="_blank" id="d-wa-btn">💬 Whatsapp Enquiry</a>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">
+          <div class="footer__brand-mark"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="#0d0d0d"/></svg></div>
+          അതിഥി CET
+        </div>
+        <p class="footer__desc">The smartest way for students to discover, compare, and choose verified hostels near their college campus.</p>
+        
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links">
+          <li><a href="browse.html">Browse Hostels</a></li>
+          <li><a href="compare.html">Compare Hostels</a></li>
+          <li><a href="map.html">Map Explorer</a></li>
+          <li><a href="enquire.html">Enquire</a></li>
+          <li><a href="admin-login.html">Admin</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">©2026 അതിഥി</span>
+      
+    </div>
+  </div>
+</footer>
+
+<script>
+// 10 REAL CET HOSTELS
+let hostels = [];
+
+function mapComparisonHostel(apiHostel) {
+  return {
+    id: apiHostel.hostel_id,
+    name: apiHostel.hostel_name,
+    type: apiHostel.hostel_type,
+    distance: apiHostel.distance_from_college ? parseFloat(apiHostel.distance_from_college) : 999,
+    price: apiHostel.lowest_rent || 0,
+    rating: apiHostel.overall_rating || 0,
+    vacancies: apiHostel.vacancies || 0,
+    availability: apiHostel.vacancies > 0 ? "Vacant" : "Full",
+    area: apiHostel.address || "",
+    capacity: apiHostel.vacancies + 10,
+    roomTypes: apiHostel.lowest_rent ? `Rent from ₹${apiHostel.lowest_rent}` : "Triple Sharing",
+    amenities: {
+      wifi: apiHostel.wifi || false,
+      ac: false,
+      food: apiHostel.mess || false,
+      laundry: apiHostel.laundry || false,
+      parking: apiHostel.parking || false,
+      security: false,
+      electricity: apiHostel.electricity_bill_included || false,
+      water: apiHostel.water_bill_included || false
+    },
+    contact: {
+      phone: "+91 000 000 0000",
+      email: "contact@hostel.com"
+    },
+    summary: "Verified student hostel offering comfortable and safe accommodation near CET campus.",
+    rules: "No curfew restrictions. Maintain discipline.",
+    nearby: "CET Campus: 0.5 km, Bus Stop: 0.5 km, Dining: 0.8 km"
+  };
+}
+
+async function loadHostelsForComparison() {
+  try {
+    const response = await fetch("http://127.0.0.1:5000/api/hostels");
+    if (!response.ok) throw new Error("Failed to fetch hostels list");
+    const data = await response.json();
+    hostels = data.hostels.map(h => ({
+      id: h.hostel_id,
+      name: h.hostel_name,
+      type: h.hostel_type,
+      distance: h.distance_from_college ? parseFloat(h.distance_from_college) : 999,
+      price: h.lowest_rent || 0,
+      rating: h.overall_rating || 0,
+      vacancies: h.vacancies || 0,
+      area: h.address || "",
+      availability: h.vacancies > 0 ? "Vacant" : "Full",
+      capacity: h.vacancies + 10,
+      roomTypes: h.lowest_rent ? `Rent from ₹${h.lowest_rent}` : "Triple Sharing",
+      amenities: {
+        wifi: h.facilities?.wifi || false,
+        ac: false,
+        food: h.facilities?.mess || false,
+        laundry: h.facilities?.washing_machine || false,
+        parking: h.facilities?.parking || false,
+        security: false,
+        electricity: h.facilities?.electricity_bill_included || false,
+        water: h.facilities?.water_bill_included || false
+      },
+      contact: {
+        phone: h.contact_number || "+91 000 000 0000",
+        email: "contact@hostel.com"
+      },
+      summary: "Verified student hostel offering comfortable and safe accommodation near CET campus.",
+      rules: "No curfew restrictions. Maintain discipline.",
+      nearby: "CET Campus: 0.5 km, Bus Stop: 0.5 km, Dining: 0.8 km"
+    }));
+    populateSelectors();
+  } catch (error) {
+    console.error("Error loading hostels for comparison:", error);
+  }
+}
+
+function buildOptions(excludeId) {
+  let html = '<option value="">Select a hostel…</option>';
+  hostels.forEach(h => {
+    if (h.id !== excludeId) {
+      html += `<option value="${h.id}">${h.name} (${h.type})</option>`;
+    }
+  });
+  return html;
+}
+
+function populateSelectors() {
+  const sa = document.getElementById('hostel-a');
+  const sb = document.getElementById('hostel-b');
+  sa.innerHTML = buildOptions(null);
+  sb.innerHTML = buildOptions(null);
+
+  sa.addEventListener('change', function() {
+    const selectedA = this.value;
+    const currentB  = sb.value;
+    sb.innerHTML = buildOptions(selectedA || null);
+    if (currentB && currentB !== selectedA) sb.value = currentB;
+    updateMeta('a', this.value);
+  });
+  sb.addEventListener('change', function() {
+    const selectedB = this.value;
+    const currentA  = sa.value;
+    sa.innerHTML = buildOptions(selectedB || null);
+    if (currentA && currentA !== selectedB) sa.value = currentA;
+    updateMeta('b', this.value);
+  });
+}
+
+function updateMeta(side, val){
+  const meta = document.getElementById('meta-'+side);
+  if(!val){ 
+    meta.innerHTML = '<span style="font-size:12.5px;color:var(--gc)">No hostel selected</span>'; 
+  } else {
+    const d = hostels.find(h => h.id === val);
+    meta.innerHTML = `
+      <span class="selector-card__badge">${d.type}</span>
+      <span class="selector-card__badge">📍 ${d.distance} km</span>
+      <span class="selector-card__badge">₹${d.price.toLocaleString("en-IN")}/mo</span>
+    `;
+  }
+  checkReady();
+}
+
+function checkReady(){
+  const a = document.getElementById('hostel-a').value;
+  const b = document.getElementById('hostel-b').value;
+  const btn = document.getElementById('compare-btn');
+  if(a && b && a !== b){
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+  } else {
+    btn.style.opacity = '.5';
+    btn.style.pointerEvents = 'none';
+  }
+}
+
+function checkVal(v){ return v ? '<span class="check">✓</span>' : '<span class="cross">✗</span>'; }
+
+let comparedHostelA = null;
+let comparedHostelB = null;
+
+async function runComparison(){
+  const aKey = document.getElementById('hostel-a').value;
+  const bKey = document.getElementById('hostel-b').value;
+  if(!aKey || !bKey || aKey === bKey) return;
+  
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/api/compare?hostel1=${aKey}&hostel2=${bKey}`);
+    if (!response.ok) throw new Error("Comparison request failed");
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message || "Failed to compare");
+
+    const a = mapComparisonHostel(data.hostel1);
+    const b = mapComparisonHostel(data.hostel2);
+    
+    comparedHostelA = a;
+    comparedHostelB = b;
+
+    document.getElementById('compare-empty-panel').style.display = 'none';
+    document.getElementById('compare-results').style.display = 'block';
+
+    // 1. Side-by-Side Cards
+    document.getElementById('card-a-title').textContent = a.name;
+    document.getElementById('card-a-badge').textContent = a.type;
+    document.getElementById('card-a-badge').className = `comp-card__badge td-badge--${a.type.toLowerCase()}`;
+    document.getElementById('card-a-dist').textContent = `📍 ${a.distance} km from CET`;
+    document.getElementById('card-a-rating').textContent = `⭐ ${a.rating}`;
+    document.getElementById('card-a-price').innerHTML = `₹${a.price.toLocaleString("en-IN")}<span>/mo</span>`;
+
+    document.getElementById('card-b-title').textContent = b.name;
+    document.getElementById('card-b-badge').textContent = b.type;
+    document.getElementById('card-b-badge').className = `comp-card__badge td-badge--${b.type.toLowerCase()}`;
+    document.getElementById('card-b-dist').textContent = `📍 ${b.distance} km from CET`;
+    document.getElementById('card-b-rating').textContent = `⭐ ${b.rating}`;
+    document.getElementById('card-b-price').innerHTML = `₹${b.price.toLocaleString("en-IN")}<span>/mo</span>`;
+
+    // 2. Table values
+    document.getElementById('th-a-name').textContent = a.name;
+    document.getElementById('th-a-sub').textContent = `${a.type} · 📍 ${a.distance} km`;
+    document.getElementById('th-b-name').textContent = b.name;
+    document.getElementById('th-b-sub').textContent = `${b.type} · 📍 ${b.distance} km`;
+
+    document.getElementById('val-a-rent').textContent = `₹${a.price.toLocaleString("en-IN")}/mo`;
+    document.getElementById('val-b-rent').textContent = `₹${b.price.toLocaleString("en-IN")}/mo`;
+    
+    document.getElementById('val-a-food').innerHTML = checkVal(a.amenities.food);
+    document.getElementById('val-b-food').innerHTML = checkVal(b.amenities.food);
+    document.getElementById('val-a-elec').innerHTML = checkVal(a.amenities.electricity);
+    document.getElementById('val-b-elec').innerHTML = checkVal(b.amenities.electricity);
+    document.getElementById('val-a-water').innerHTML = checkVal(a.amenities.water);
+    document.getElementById('val-b-water').innerHTML = checkVal(b.amenities.water);
+
+    document.getElementById('val-a-dist').textContent = `${a.distance} km`;
+    document.getElementById('val-b-dist').textContent = `${b.distance} km`;
+    document.getElementById('val-a-area').textContent = a.area;
+    document.getElementById('val-b-area').textContent = b.area;
+
+    document.getElementById('val-a-wifi').innerHTML = checkVal(a.amenities.wifi);
+    document.getElementById('val-b-wifi').innerHTML = checkVal(b.amenities.wifi);
+    document.getElementById('val-a-ac').innerHTML = checkVal(a.amenities.ac);
+    document.getElementById('val-b-ac').innerHTML = checkVal(b.amenities.ac);
+    document.getElementById('val-a-laundry').innerHTML = checkVal(a.amenities.laundry);
+    document.getElementById('val-b-laundry').innerHTML = checkVal(b.amenities.laundry);
+    document.getElementById('val-a-security').innerHTML = checkVal(a.amenities.security);
+    document.getElementById('val-b-security').innerHTML = checkVal(b.amenities.security);
+    document.getElementById('val-a-parking').innerHTML = checkVal(a.amenities.parking);
+    document.getElementById('val-b-parking').innerHTML = checkVal(b.amenities.parking);
+
+    document.getElementById('val-a-room').textContent = a.roomTypes;
+    document.getElementById('val-b-room').textContent = b.roomTypes;
+    document.getElementById('val-a-capacity').textContent = `${a.capacity} seats`;
+    document.getElementById('val-b-capacity').textContent = `${b.capacity} seats`;
+    document.getElementById('val-a-avail').innerHTML = `<span style="color:${a.availability==='Vacant'?'#16a34a':'#dc2626'}">${a.availability}</span>`;
+    document.getElementById('val-b-avail').innerHTML = `<span style="color:${b.availability==='Vacant'?'#16a34a':'#dc2626'}">${b.availability}</span>`;
+
+    // Highlight better price & distance rows
+    const rows = document.querySelectorAll('.compare-table tbody tr');
+    rows.forEach(r => r.style.background = 'none');
+    
+    if (a.price < b.price) {
+      document.getElementById('val-a-rent').style.color = '#16a34a';
+    } else if (b.price < a.price) {
+      document.getElementById('val-b-rent').style.color = '#16a34a';
+    }
+    
+    if (a.distance < b.distance) {
+      document.getElementById('val-a-dist').style.color = '#16a34a';
+    } else if (b.distance < a.distance) {
+      document.getElementById('val-b-dist').style.color = '#16a34a';
+    }
+
+    // 3. Advantages Section
+    document.getElementById('adv-title-a').textContent = `Key Advantages of ${a.name}`;
+    document.getElementById('adv-title-b').textContent = `Key Advantages of ${b.name}`;
+    
+    const advsA = getAdvantages(a, b);
+    const advsB = getAdvantages(b, a);
+    
+    document.getElementById('adv-list-a').innerHTML = advsA.map(ad => `
+      <li class="adv-item">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <span>${ad}</span>
+      </li>
+    `).join('') || '<li class="adv-item">No major statistical advantages</li>';
+    
+    document.getElementById('adv-list-b').innerHTML = advsB.map(ad => `
+      <li class="adv-item">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <span>${ad}</span>
+      </li>
+    `).join('') || '<li class="adv-item">No major statistical advantages</li>';
+
+    // 4. Verdict
+    let verdict = '';
+    if (a.price < b.price && a.distance < b.distance) {
+      verdict = `<strong>${a.name}</strong> stands out as both more budget-friendly (₹${a.price.toLocaleString("en-IN")}/mo vs ₹${b.price.toLocaleString("en-IN")}/mo) and closer to the CET campus (${a.distance} km vs ${b.distance} km). It represents the optimal choice for students prioritizing convenience and value.`;
+    } else if (b.price < a.price && b.distance < a.distance) {
+      verdict = `<strong>${b.name}</strong> stands out as both more budget-friendly (₹${b.price.toLocaleString("en-IN")}/mo vs ₹${a.price.toLocaleString("en-IN")}/mo) and closer to the CET campus (${b.distance} km vs ${a.distance} km). It represents the optimal choice for students prioritizing convenience and value.`;
+    } else {
+      const cheaper = a.price < b.price ? a : b;
+      const closer = a.distance < b.distance ? a : b;
+      verdict = `There is a clear trade-off between pricing and location. Choose <strong>${closer.name}</strong> if you want to be closer to campus (${closer.distance} km vs ${cheaper.distance} km). Alternatively, choose <strong>${cheaper.name}</strong> to save on rent (₹${cheaper.price.toLocaleString("en-IN")}/mo vs ₹${closer.price.toLocaleString("en-IN")}/mo).`;
+    }
+    
+    if (a.amenities.ac && !b.amenities.ac) {
+      verdict += ` Also note that <strong>${a.name}</strong> offers air-conditioned comfort, which is not available at ${b.name}.`;
+    } else if (b.amenities.ac && !a.amenities.ac) {
+      verdict += ` Also note that <strong>${b.name}</strong> offers air-conditioned comfort, which is not available at ${a.name}.`;
+    }
+    
+    document.getElementById('verdict-text').innerHTML = verdict;
+    document.getElementById('compare-results').scrollIntoView({behavior:'smooth', block:'start'});
+
+  } catch (error) {
+    console.error("Error comparing hostels:", error);
+  }
+}
+
+function getAdvantages(x, y) {
+  const advs = [];
+  if (x.price < y.price) advs.push(`<strong>More Affordable:</strong> Rent is ₹${(y.price - x.price).toLocaleString("en-IN")} cheaper per month.`);
+  if (x.distance < y.distance) advs.push(`<strong>Closer to Campus:</strong> Located ${(y.distance - x.distance).toFixed(1)} km closer to CET.`);
+  if (x.rating > y.rating) advs.push(`<strong>Higher Student Rating:</strong> Rated ⭐ ${x.rating}/5 compared to ${y.rating}/5.`);
+  if (x.amenities.ac && !y.amenities.ac) advs.push(`Offers Air Conditioning (AC rooms).`);
+  if (x.amenities.food && !y.amenities.food) advs.push(`Includes all daily meals in the rent.`);
+  if (x.amenities.laundry && !y.amenities.laundry) advs.push(`Provides in-house laundry/washing machine facilities.`);
+  if (x.amenities.security && !y.amenities.security) advs.push(`Enhanced safety with full-time security guards.`);
+  if (x.availability === 'Vacant' && y.availability !== 'Vacant') advs.push(`<strong>Available:</strong> Active vacancies for immediate intake.`);
+  return advs;
+}
+
+// DETAILS DRAWER FUNCTIONS
+async function openDetailsFromCompare(side) {
+  const h = side === 'a' ? comparedHostelA : comparedHostelB;
+  if(!h) return;
+  
+  try {
+    // Basic loading info in drawer first
+    document.getElementById("d-name").textContent = h.name;
+    document.getElementById("d-area-badge").textContent = `${h.area} · ${h.type} Hostel`;
+    document.getElementById("d-price").textContent = `₹${h.price.toLocaleString("en-IN")}/mo`;
+    document.getElementById("d-distance").textContent = `${h.distance} km`;
+
+    // Open drawer
+    document.getElementById("drawer").classList.add("open");
+    document.getElementById("drawer-overlay").classList.add("open");
+
+    // Fetch dynamic details
+    const response = await fetch(`http://127.0.0.1:5000/api/hostels/${h.id}`);
+    if (!response.ok) throw new Error("Failed to fetch details");
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message || "Failed to load details");
+
+    const hostel = data.hostel;
+    const facilities = data.facilities || {};
+    const roomTypes = data.room_types || [];
+    const rating = data.rating || {};
+
+    // Populate drawer elements
+    document.getElementById("d-summary").textContent = hostel.summary || "Verified student hostel offering comfortable and safe accommodation near CET campus.";
+    document.getElementById("d-capacity").textContent = `${hostel.vacancies || 0} vacancies`;
+    document.getElementById("d-vacancy").textContent = hostel.vacancies > 0 ? `${hostel.vacancies} Vacant` : "Full";
+    
+    // Room Types
+    const roomTypesStr = roomTypes.length > 0 
+      ? roomTypes.map(r => `${r.room_type} (₹${r.monthly_rent || 0}/mo)`).join(", ") 
+      : "Contact for details";
+    document.getElementById("d-room-types").textContent = roomTypesStr;
+
+    // Rules
+    const rulesContainer = document.getElementById("d-rules");
+    rulesContainer.innerHTML = `
+      <div>🕒 <strong>Curfew:</strong> ${hostel.hostel_type === 'Girls' ? '8:30 PM' : '9:30 PM'}</div>
+      <div>🚫 <strong>Restrictions:</strong> No loud music after 10:00 PM. Maintain cleanliness.</div>
+    `;
+
+    // Nearby places
+    const nearbyContainer = document.getElementById("d-nearby");
+    nearbyContainer.innerHTML = `
+      <div>🎓 <strong>CET Campus:</strong> ${hostel.distance_from_college || 0.5} km</div>
+      <div>🚌 <strong>Bus Stop:</strong> 0.5 km</div>
+      <div>🍽️ <strong>Junction/Dining:</strong> 0.8 km</div>
+    `;
+
+    // Contact info
+    const phone = hostel.contact_number || "+91 000 000 0000";
+    document.getElementById("d-phone").textContent = phone;
+    document.getElementById("d-email").textContent = hostel.email || "contact@hostel.com";
+
+    const cleanPhone = phone.replace(/\s+/g, '');
+    document.getElementById("d-call-btn").href = `tel:${cleanPhone}`;
+    document.getElementById("d-wa-btn").href = `https://wa.me/${cleanPhone.replace('+', '')}?text=Hi,%20I%27m%20interested%20in%20your%20hostel%20listed%20on%20അതിഥി CET.`;
+
+    // Amenities
+    const amenitiesList = document.getElementById("d-amenities-list");
+    amenitiesList.innerHTML = "";
+
+    const labels = {
+      wifi: "WiFi Available",
+      ac: "AC Rooms",
+      food: "Food Included",
+      laundry: "Laundry Available",
+      parking: "Parking",
+      security: "Security Guard"
+    };
+
+    const amenitiesMap = {
+      wifi: facilities.wifi,
+      ac: facilities.gym || false,
+      food: facilities.mess,
+      laundry: facilities.washing_machine,
+      parking: facilities.parking,
+      security: facilities.cleaning_service || false
+    };
+
+    Object.keys(labels).forEach((key) => {
+      const has = amenitiesMap[key];
+      const badge = document.createElement("span");
+      badge.className = `d-amenity-badge ${has ? 'yes' : 'no'}`;
+      badge.textContent = `${has ? '✓' : '✗'} ${labels[key]}`;
+      amenitiesList.appendChild(badge);
+    });
+
+  } catch (error) {
+    console.error("Error loading detailed profile:", error);
+  }
+}
+
+function closeDrawer() {
+  document.getElementById("drawer").classList.remove("open");
+  document.getElementById("drawer-overlay").classList.remove("open");
+}
+
+window.addEventListener('load', () => {
+  loadHostelsForComparison();
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+if(revealEls.length){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+  },{threshold:0.12});
+  revealEls.forEach(el => io.observe(el));
+}
+  // Select the hamburger button and the links menu
+  const navHam = document.querySelector('.nav__ham');
+  const navLinks = document.querySelector('.nav__links');
+
+  if (navHam && navLinks) {
+    navHam.addEventListener('click', () => {
+      // Toggle the 'open' class on both elements when clicked
+      navHam.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  }
+</script>
+
+</body>
+</html>

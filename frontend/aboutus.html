@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — HostelHub</title>
+<meta name="description" content="Discover the story behind HostelHub, created by six CET students to bring transparency and reliable reviews to CET student housing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* Page-specific styling for About Us */
+  .about-container {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 3rem var(--px) 5.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Shared card aesthetics matching homepage */
+  .card-premium {
+    background: var(--white);
+    border: 1px solid var(--ge);
+    border-radius: var(--radius);
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  }
+  .card-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Story section */
+  .story-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .story-card__highlight {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--black);
+    border-left: 3px solid var(--black);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .story-card__p {
+    font-size: 15px;
+    color: var(--g6);
+    line-height: 1.8;
+    font-weight: 500;
+  }
+
+  /* Mission statement card */
+  .mission-card {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .mission-card__h2 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--g9);
+    margin-bottom: 0.75rem;
+  }
+  .mission-card__title {
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.25rem;
+  }
+  .mission-card__p {
+    font-size: 15.5px;
+    color: var(--g6);
+    line-height: 1.75;
+    font-weight: 500;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* What We Built section */
+  .built-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .built-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 0.5rem;
+  }
+  .built-header__h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--black);
+    margin-bottom: 0.75rem;
+  }
+  .built-header__sub {
+    font-size: 15.5px;
+    color: var(--g6);
+    line-height: 1.6;
+  }
+  .built-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .built-card {
+    border-radius: var(--radius);
+    padding: 2.2rem 2rem;
+    border: 1px solid var(--ge);
+    box-shadow: var(--shadow);
+    transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .built-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--black);
+  }
+  .built-card__icon {
+    width: 44px;
+    height: 44px;
+    background: var(--white);
+    border: 1.5px solid var(--ge);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .built-card:hover .built-card__icon {
+    background: var(--black);
+    border-color: var(--black);
+  }
+  .built-card:hover .built-card__icon svg {
+    stroke: var(--white);
+    fill: var(--white);
+  }
+  .built-card__icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--black);
+    transition: stroke 0.2s, fill 0.2s;
+  }
+  .built-card__h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.3px;
+  }
+  .built-card__p {
+    font-size: 14px;
+    color: var(--g6);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* Team section */
+  .team-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .team-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .team-header__h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--black);
+    margin-bottom: 0.75rem;
+  }
+  .team-header__sub {
+    font-size: 15.5px;
+    color: var(--g6);
+    line-height: 1.7;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+  }
+  .team-card {
+    background: var(--white);
+    border: 1px solid var(--ge);
+    border-radius: var(--radius);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .team-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .team-card__avatar-wrap {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.25rem;
+  }
+  .team-card__avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--black);
+    border: 1px solid var(--ge);
+  }
+  .team-card__name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.2px;
+  }
+  .team-card__role {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--g9);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 0.85rem;
+  }
+  .team-card__contribution {
+    font-size: 13.5px;
+    color: var(--g6);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* Final trust section */
+  .trust-card {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .trust-card__h2 {
+    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    font-weight: 900;
+    color: var(--black);
+    letter-spacing: -0.4px;
+    margin-bottom: 0.85rem;
+  }
+  .trust-card__p {
+    font-size: 14.5px;
+    color: var(--g6);
+    line-height: 1.7;
+    font-weight: 500;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* Navigation drawer styling for mobile viewports */
+  @media (max-width: 768px) {
+    .nav__ham {
+      display: flex;
+    }
+    
+    .nav__links {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+      padding: 6rem 2.5rem;
+      gap: 1.8rem;
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 105;
+    }
+
+    .nav__links.open {
+      right: 0;
+    }
+
+    .nav__links li {
+      list-style: none;
+    }
+
+    .nav__links li a {
+      display: block;
+      font-size: 15.5px !important;
+      font-weight: 600 !important;
+      color: var(--black) !important;
+      padding: 0.5rem 0;
+      transition: color 0.18s;
+    }
+
+    .nav__ham span {
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .nav__ham.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav__ham.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav__ham.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+
+  /* Responsive tweaks for the custom content */
+  @media(max-width: 1024px) {
+    .built-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media(max-width: 768px) {
+    .about-container {
+      padding: 2.5rem var(--px) 4.5rem;
+      gap: 3.5rem;
+    }
+    .built-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .team-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .card-premium {
+      padding: 2.2rem 1.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="hosteltxt.html">
+      <div class="nav__logo-mark">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="white"/></svg>
+      </div>
+      <span class="nav__logo-name">HostelHub</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="hosteltxt.html">Home</a></li>
+      <li><a href="browse.html">Browse Hostels</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="enquire.html">Enquire</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+    </ul>
+    <button class="nav__ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ══════════ PAGE HERO ══════════ -->
+<div class="page-hero" style="position:relative; overflow:hidden;">
+  <div class="dec-shape dec-shape--sage" style="top:-20px; right:-20px; width:220px; height:220px; opacity:0.55;"></div>
+  <div class="dec-shape dec-shape--lavender" style="bottom:-30px; left:10%; width:200px; height:200px; opacity:0.45;"></div>
+  <svg class="scribble-svg" style="bottom:10%; right:6%; width:200px; height:70px; opacity:0.6" viewBox="0 0 200 70">
+    <path class="scribble-path accent-sage" d="M10,15 Q100,65 190,20" />
+  </svg>
+  <div class="page-hero__inner" style="position:relative; z-index:2;">
+    <p class="page-hero__label">About Us</p>
+    <h1 class="page-hero__h1">About HostelHub</h1>
+    <p class="page-hero__sub">Real Reviews. Better Choices. Happier Stays.</p>
+  </div>
+</div>
+
+<!-- ══════════ ABOUT CONTENT ══════════ -->
+<div class="about-container">
+
+  <!-- Our Story -->
+  <div class="card-premium story-card">
+    <div class="story-card__highlight">
+      Every year, hundreds of students arriving at the College of Engineering Trivandrum face the same challenging rite of passage: finding a safe, verified, and comfortable place to stay.
+    </div>
+    <p class="story-card__p">
+      Without an organized resource, freshers and their parents are often forced to spend hot days walking the lanes of Chavadimukku, Sreekariyam, and Pangappara, relying solely on local brokers and word-of-mouth. Offline information is scattered, and online reviews are often sparse, outdated, or unreliable.
+    </p>
+    <p class="story-card__p">
+      Recognizing this struggle, a group of senior CET students decided to build HostelHub. We realized that what students needed most was transparency—a single, organized platform where they could view detailed profiles, inspect rooms virtually, and compare parameters objectively.
+    </p>
+    <p class="story-card__p">
+      HostelHub acts as a community-driven database built with absolute transparency in mind. By collecting detailed amenity lists, verifying curfew rules, calculating precise distances to the CET campus, and presenting real reviews from real seniors, we aim to eliminate housing uncertainty.
+    </p>
+  </div>
+
+  <!-- Our Mission -->
+  <div class="card-premium mission-card">
+    <div class="mission-card__h2">Our Mission</div>
+    <h3 class="mission-card__title">To make student housing transparent, safe, and accessible for everyone.</h3>
+    <p class="mission-card__p">
+      We believe finding a home near campus should be a seamless experience. Our goal is to ensure no student has to make a blind choice regarding their living conditions.
+    </p>
+  </div>
+
+  <!-- What We Built -->
+  <div class="built-section">
+    <div class="built-header">
+      <h2 class="built-header__h2">What We Built</h2>
+      <p class="built-header__sub">Simple, powerful tools designed specifically to help CET students discover their ideal living space.</p>
+    </div>
+    <div class="built-grid">
+      <!-- Browse Card -->
+      <a href="browse.html" class="built-card bg-lavender">
+        <div class="built-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9" />
+            <rect x="14" y="3" width="7" height="5" />
+            <rect x="14" y="12" width="7" height="9" />
+            <rect x="3" y="16" width="7" height="5" />
+          </svg>
+        </div>
+        <h3 class="built-card__h3">Browse Hostels</h3>
+        <p class="built-card__p">Explore a curated directory of verified accommodations near campus with detailed profiles, curfew details, and pricing lists.</p>
+      </a>
+
+      <!-- Compare Card -->
+      <a href="compare.html" class="built-card bg-sage">
+        <div class="built-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="8" height="18" rx="1" />
+            <rect x="14" y="3" width="8" height="18" rx="1" />
+          </svg>
+        </div>
+        <h3 class="built-card__h3">Compare Hostels</h3>
+        <p class="built-card__p">Evaluate rent, deposit amounts, curfew times, and distance to college side-by-side to make the most informed decision.</p>
+      </a>
+
+      <!-- Map Card -->
+      <a href="map.html" class="built-card bg-blue">
+        <div class="built-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        </div>
+        <h3 class="built-card__h3">Map Explorer</h3>
+        <p class="built-card__p">Visualize hostel locations around campus. Understand precise walking distances and proximity to local transit.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- The People Behind HostelHub -->
+  <div class="team-section">
+    <div class="team-header">
+      <h2 class="team-header__h2">The People Behind HostelHub</h2>
+      <p class="team-header__sub">Built by five CET students to help future students make better housing decisions.</p>
+    </div>
+
+    <div class="team-grid">
+      <!-- Member 1 -->
+      <div class="team-card">
+        <div class="team-card__avatar-wrap">
+          <div class="team-card__avatar bg-lavender">NY</div>
+        </div>
+        <div class="team-card__name">Nayana</div>
+        <div class="team-card__role">Founder & Product Lead</div>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="team-card">
+        <div class="team-card__avatar-wrap">
+          <div class="team-card__avatar bg-sage">MK</div>
+        </div>
+        <div class="team-card__name">Meghna K K</div>
+        <div class="team-card__role">Co-Founder & Tech Lead</div>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="team-card">
+        <div class="team-card__avatar-wrap">
+          <div class="team-card__avatar bg-blue">AP</div>
+        </div>
+        <div class="team-card__name">Abhijith S Pillai</div>
+        <div class="team-card__role">Frontend Developer</div>
+      </div>
+
+      <!-- Member 4 -->
+      <div class="team-card">
+        <div class="team-card__avatar-wrap">
+          <div class="team-card__avatar bg-beige">AK</div>
+        </div>
+        <div class="team-card__name">Abhijithu KR</div>
+        <div class="team-card__role">UI/UX Designer</div>
+      </div>
+
+      <!-- Member 5 -->
+      <div class="team-card">
+        <div class="team-card__avatar-wrap">
+          <div class="team-card__avatar bg-lavender">AB</div>
+        </div>
+        <div class="team-card__name">Amal Benedict Benny</div>
+        <div class="team-card__role">Operations & Data Lead</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Trust Section -->
+  <div class="card-premium trust-card bg-offwhite">
+    <h2 class="trust-card__h2">Built by students, for students.</h2>
+    <p class="trust-card__p">
+      HostelHub is an independent, non-profit student initiative. We never charge booking commissions or allow sponsored hostel rankings. Our listings are verified on the ground, and our reviews are written by real CET seniors who have lived there.
+    </p>
+  </div>
+
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__brand-name">
+          <div class="footer__brand-mark"><svg viewBox="0 0 18 18" fill="none"><path d="M2 15V8L9 2L16 8V15H11.5V10.5H6.5V15H2Z" fill="#0d0d0d"/></svg></div>
+          HostelHub
+        </div>
+        <p class="footer__desc">The smartest way for students to discover, compare, and choose verified hostels near their college campus.</p>
+       
+      </div>
+      <div>
+        <div class="footer__col-title">Platform</div>
+        <ul class="footer__links">
+          <li><a href="browse.html">Browse Hostels</a></li>
+          <li><a href="compare.html">Compare Hostels</a></li>
+          <li><a href="map.html">Map Explorer</a></li>
+          <li><a href="enquire.html">Enquire</a></li>
+          <li><a href="admin-login.html">Admin</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <ul class="footer__links">
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="enquire.html#contact">Contact</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+     <div class="footer__bottom">
+      <span class="footer__copy">©2026 അതിഥി</span>
+      
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile responsive nav drawer toggle
+  const navHam = document.querySelector('.nav__ham');
+  const navLinks = document.querySelector('.nav__links');
+
+  if (navHam && navLinks) {
+    navHam.addEventListener('click', () => {
+      navHam.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+  }
+</script>
+
+</body>
+</html>
