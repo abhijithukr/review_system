@@ -782,7 +782,7 @@ function mapComparisonHostel(apiHostel) {
     id: apiHostel.hostel_id,
     name: apiHostel.hostel_name,
     type: apiHostel.hostel_type,
-    distance: apiHostel.distance_from_college ? apiHostel.distance_from_college / 1000 : 999,
+    distance: apiHostel.distance_from_college ?? 999,
     price: apiHostel.lowest_rent || 0,
     rating: apiHostel.overall_rating || 0,
     vacancies: apiHostel.vacancies ?? 0,
@@ -819,7 +819,7 @@ async function loadHostelsForComparison() {
       id: h.hostel_id,
       name: h.hostel_name,
       type: h.hostel_type,
-      distance: h.distance_from_college ? h.distance_from_college / 1000 : 999,
+      distance: h.distance_from_college ?? 999,
       price: h.lowest_rent || 0,
       rating: h.overall_rating || 0,
       vacancies: h.vacancies ?? 0,
@@ -940,22 +940,22 @@ async function runComparison(){
     document.getElementById('card-a-title').textContent = a.name;
     document.getElementById('card-a-badge').textContent = a.type;
     document.getElementById('card-a-badge').className = `comp-card__badge td-badge--${a.type.toLowerCase()}`;
-    document.getElementById('card-a-dist').textContent = `📍 ${a.distance} km from CET`;
+    document.getElementById('card-a-dist').textContent = `📍 ${fmtDist(a.distance)} from CET`;
     document.getElementById('card-a-rating').textContent = `⭐ ${a.rating}`;
     document.getElementById('card-a-price').innerHTML = `₹${a.price.toLocaleString("en-IN")}<span>/mo</span>`;
 
     document.getElementById('card-b-title').textContent = b.name;
     document.getElementById('card-b-badge').textContent = b.type;
     document.getElementById('card-b-badge').className = `comp-card__badge td-badge--${b.type.toLowerCase()}`;
-    document.getElementById('card-b-dist').textContent = `📍 ${b.distance} km from CET`;
+    document.getElementById('card-b-dist').textContent = `📍 ${fmtDist(b.distance)} from CET`;
     document.getElementById('card-b-rating').textContent = `⭐ ${b.rating}`;
     document.getElementById('card-b-price').innerHTML = `₹${b.price.toLocaleString("en-IN")}<span>/mo</span>`;
 
     // 2. Table values
     document.getElementById('th-a-name').textContent = a.name;
-    document.getElementById('th-a-sub').textContent = `${a.type} · 📍 ${a.distance} km`;
+    document.getElementById('th-a-sub').textContent = `${a.type} · 📍 ${fmtDist(a.distance)}`;
     document.getElementById('th-b-name').textContent = b.name;
-    document.getElementById('th-b-sub').textContent = `${b.type} · 📍 ${b.distance} km`;
+    document.getElementById('th-b-sub').textContent = `${b.type} · 📍 ${fmtDist(b.distance)}`;
 
     document.getElementById('val-a-rent').textContent = `₹${a.price.toLocaleString("en-IN")}/mo`;
     document.getElementById('val-b-rent').textContent = `₹${b.price.toLocaleString("en-IN")}/mo`;
@@ -967,8 +967,8 @@ async function runComparison(){
     document.getElementById('val-a-water').innerHTML = checkVal(a.amenities.water);
     document.getElementById('val-b-water').innerHTML = checkVal(b.amenities.water);
 
-    document.getElementById('val-a-dist').textContent = `${a.distance} km`;
-    document.getElementById('val-b-dist').textContent = `${b.distance} km`;
+    document.getElementById('val-a-dist').textContent = fmtDist(a.distance);
+    document.getElementById('val-b-dist').textContent = fmtDist(b.distance);
     document.getElementById('val-a-area').textContent = a.area;
     document.getElementById('val-b-area').textContent = b.area;
 
@@ -1027,16 +1027,26 @@ async function runComparison(){
       </li>
     `).join('') || '<li class="adv-item">No major statistical advantages</li>';
 
+    function fmtDist(m) { return m >= 1000 ? `${(m/1000).toFixed(1)} km` : `${m} m`; }
+
     // 4. Verdict
     let verdict = '';
     if (a.price < b.price && a.distance < b.distance) {
-      verdict = `<strong>${a.name}</strong> stands out as both more budget-friendly (₹${a.price.toLocaleString("en-IN")}/mo vs ₹${b.price.toLocaleString("en-IN")}/mo) and closer to the CET campus (${a.distance} km vs ${b.distance} km). It represents the optimal choice for students prioritizing convenience and value.`;
+      verdict = `<strong>${a.name}</strong> stands out as both more budget-friendly (₹${a.price.toLocaleString("en-IN")}/mo vs ₹${b.price.toLocaleString("en-IN")}/mo) and closer to the CET campus (${fmtDist(a.distance)} vs ${fmtDist(b.distance)}). It represents the optimal choice for students prioritizing convenience and value.`;
     } else if (b.price < a.price && b.distance < a.distance) {
-      verdict = `<strong>${b.name}</strong> stands out as both more budget-friendly (₹${b.price.toLocaleString("en-IN")}/mo vs ₹${a.price.toLocaleString("en-IN")}/mo) and closer to the CET campus (${b.distance} km vs ${a.distance} km). It represents the optimal choice for students prioritizing convenience and value.`;
+      verdict = `<strong>${b.name}</strong> stands out as both more budget-friendly (₹${b.price.toLocaleString("en-IN")}/mo vs ₹${a.price.toLocaleString("en-IN")}/mo) and closer to the CET campus (${fmtDist(b.distance)} vs ${fmtDist(a.distance)}). It represents the optimal choice for students prioritizing convenience and value.`;
+    } else if (a.price === b.price && a.distance === b.distance) {
+      verdict = `Both hostels are equally priced at ₹${a.price.toLocaleString("en-IN")}/mo and the same distance from campus (${fmtDist(a.distance)}). Your choice can be based on other factors like facilities or personal preference.`;
     } else {
       const cheaper = a.price < b.price ? a : b;
       const closer = a.distance < b.distance ? a : b;
-      verdict = `There is a clear trade-off between pricing and location. Choose <strong>${closer.name}</strong> if you want to be closer to campus (${closer.distance} km vs ${cheaper.distance} km). Alternatively, choose <strong>${cheaper.name}</strong> to save on rent (₹${cheaper.price.toLocaleString("en-IN")}/mo vs ₹${closer.price.toLocaleString("en-IN")}/mo).`;
+      if (a.price === b.price) {
+        verdict = `Both hostels have the same rent at ₹${a.price.toLocaleString("en-IN")}/mo. Choose <strong>${closer.name}</strong> to be closer to campus (${fmtDist(closer.distance)} vs ${fmtDist(closer === a ? b.distance : a.distance)}).`;
+      } else if (a.distance === b.distance) {
+        verdict = `Both hostels are the same distance from campus (${fmtDist(a.distance)}). Choose <strong>${cheaper.name}</strong> to save on rent (₹${cheaper.price.toLocaleString("en-IN")}/mo vs ₹${(cheaper === a ? b : a).price.toLocaleString("en-IN")}/mo).`;
+      } else {
+        verdict = `There is a clear trade-off between pricing and location. Choose <strong>${closer.name}</strong> if you want to be closer to campus (${fmtDist(closer.distance)} vs ${fmtDist(closer === a ? b.distance : a.distance)}). Alternatively, choose <strong>${cheaper.name}</strong> to save on rent (₹${cheaper.price.toLocaleString("en-IN")}/mo vs ₹${(cheaper === a ? b : a).price.toLocaleString("en-IN")}/mo).`;
+      }
     }
     
     if (a.amenities.ac && !b.amenities.ac) {
@@ -1056,7 +1066,7 @@ async function runComparison(){
 function getAdvantages(x, y) {
   const advs = [];
   if (x.price < y.price) advs.push(`<strong>More Affordable:</strong> Rent is ₹${(y.price - x.price).toLocaleString("en-IN")} cheaper per month.`);
-  if (x.distance < y.distance) advs.push(`<strong>Closer to Campus:</strong> Located ${(y.distance - x.distance).toFixed(1)} km closer to CET.`);
+  if (x.distance < y.distance) advs.push(`<strong>Closer to Campus:</strong> Located ${fmtDist(y.distance - x.distance)} closer to CET.`);
   if (x.rating > y.rating) advs.push(`<strong>Higher Student Rating:</strong> Rated ⭐ ${x.rating}/5 compared to ${y.rating}/5.`);
   if (x.amenities.ac && !y.amenities.ac) advs.push(`Offers Air Conditioning (AC rooms).`);
   if (x.amenities.food && !y.amenities.food) advs.push(`Includes all daily meals in the rent.`);
