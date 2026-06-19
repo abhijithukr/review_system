@@ -614,21 +614,18 @@ Next >>
     <!-- Overview -->
     <div class="d-sec">
       <span class="d-sec__title">Overview</span>
-      <p id="d-summary" style="font-size:14px; color:var(--g6); line-height:1.65; margin-bottom:.5rem;">Detailed summary of the hostel.</p>
       <div class="d-grid">
-        <div class="d-item"><span class="d-label">Distance from CET</span><span class="d-val" id="d-distance">0.0 km</span></div>
-        <div class="d-item"><span class="d-label">Capacity</span><span class="d-val" id="d-capacity">0 students</span></div>
+        <div class="d-item"><span class="d-label">Distance from CET</span><span class="d-val" id="d-distance">0.0 m</span></div>
+        <div class="d-item"><span class="d-label">Vacancy</span><span class="d-val" id="d-capacity">0</span></div>
+        <div class="d-item"><span class="d-label">Overall Rating</span><span class="d-val" id="d-overall-rating">—</span></div>
       </div>
     </div>
 
     <!-- Pricing & Rooms -->
     <div class="d-sec">
       <span class="d-sec__title">Pricing & Rooms</span>
-      <div class="d-grid">
-        <div class="d-item"><span class="d-label">Monthly Rent</span><span class="d-val" style="font-size:17px; color:var(--black)" id="d-price">₹0</span></div>
-        <div class="d-item"><span class="d-label">Room Types</span><span class="d-val" id="d-room-types">Room Types</span></div>
-        <div class="d-item"><span class="d-label">Vacancy Status</span><span class="d-val" id="d-vacancy">Vacancy</span></div>
-        <div class="d-item"><span class="d-label">Deposit</span><span class="d-val">₹5,000 (Refundable)</span></div>
+      <div id="d-room-types-list">
+        <!-- Filled dynamically -->
       </div>
     </div>
 
@@ -637,6 +634,14 @@ Next >>
       <span class="d-sec__title">Amenities</span>
       <div class="d-amenities" id="d-amenities-list">
         <!-- badges -->
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="d-sec" id="d-reviews-section">
+      <span class="d-sec__title">Reviews</span>
+      <div id="d-reviews-list" style="font-size:13.5px; color:var(--g6); line-height:1.6;">
+        <p style="color:var(--gc);">Loading reviews...</p>
       </div>
     </div>
 
@@ -667,29 +672,10 @@ Next >>
       </div>
     </div>
 
-    <!-- Rules -->
-    <div class="d-sec">
-      <span class="d-sec__title">Hostel Rules</span>
-      <div style="font-size:13.5px; color:var(--g6); line-height:1.6; display:flex; flex-direction:column; gap:.4rem;" id="d-rules">
-        <!-- Filled dynamically -->
-      </div>
-    </div>
-
-    <!-- Nearby places -->
-    <div class="d-sec">
-      <span class="d-sec__title">Nearby Places</span>
-      <div style="font-size:13.5px; color:var(--g6); line-height:1.6; display:flex; flex-direction:column; gap:.4rem;" id="d-nearby">
-        <!-- Filled dynamically -->
-      </div>
-    </div>
-
     <!-- Contact details -->
     <div class="d-sec">
       <span class="d-sec__title">Contact Details</span>
-      <div class="d-grid">
-        <div class="d-item"><span class="d-label">Phone</span><span class="d-val" id="d-phone">+91 000 000 0000</span></div>
-        <div class="d-item"><span class="d-label">Email</span><span class="d-val" id="d-email">contact@hostel.com</span></div>
-      </div>
+      <div class="d-item"><span class="d-label">Phone</span><span class="d-val" id="d-phone">+91 000 000 0000</span></div>
     </div>
   </div>
   <div class="drawer__footer">
@@ -761,6 +747,9 @@ async function applyFilters(page = 1){
     if(gender && gender !== "any") params.append("gender", gender.toLowerCase());
     if(budget && Number(budget) < 8000) params.append("max_budget", budget);
 
+    const distance = document.getElementById('filter-distance').value;
+    if(distance) params.append("max_distance", distance * 1000);
+
     if(document.getElementById("filter-wifi").checked) params.append("wifi", "true");
     if(document.getElementById("filter-food").checked) params.append("mess", "true");
     if(document.getElementById("filter-parking").checked) params.append("parking", "true");
@@ -793,11 +782,11 @@ async function applyFilters(page = 1){
     hostels = apiHostels.map(h => ({
       id: h.hostel_id,
       name: h.hostel_name,
-      type: h.hostel_type,
-      distance: h.distance_from_college || 0,
-      price: h.lowest_rent || 0,
-      rating: h.overall_rating || 0,
-      vacancies: h.vacancies || 0,
+      type: h.hostel_type.charAt(0).toUpperCase() + h.hostel_type.slice(1),
+      distance: h.distance_from_college ?? 0,
+      price: h.lowest_rent ?? 0,
+      rating: h.overall_rating ?? 0,
+      vacancies: h.vacancies ?? 0,
       area: h.address || "",
       amenities: {
         wifi: h.facilities?.wifi || false,
@@ -910,7 +899,7 @@ ${h.type}
           <span class="hc__dist">📍 ${h.distance} m from CET</span>
           <span style="font-size:12.5px;font-weight:600">⭐ ${h.rating}</span>
         </div>
-        <div class="hc__price">₹${h.price.toLocaleString("en-IN")}<span>/mo</span></div>
+        <div class="hc__price">${h.price ? `₹${h.price.toLocaleString("en-IN")}<span>/mo</span>` : '—'}</div>
         <div class="hc__tags">
           ${amenitiesTags.slice(0, 3).join('')}
         </div>
@@ -932,38 +921,99 @@ document.getElementById("nextBtn")
 .disabled = currentPage === totalPages;
 }
 
+function fmtDist(m) { return m >= 1000 ? `${(m/1000).toFixed(1)} km` : `${m} m`; }
+function fmtPrice(n) { return n ? `₹${n.toLocaleString("en-IN")}/mo` : '—'; }
+
 // DETAILS DRAWER FUNCTIONS
-function openDrawer(h) {
+async function openDrawer(h) {
   document.getElementById("d-name").textContent = h.name;
   document.getElementById("d-area-badge").textContent = `${h.type} Hostel`;
-  document.getElementById("d-summary").textContent = "Verified hostel near CET.";
-  document.getElementById("d-distance").textContent = `${h.distance} m`;
-  document.getElementById("d-capacity").textContent = `${h.vacancies} vacancies`;
-  document.getElementById("d-price").textContent = `₹${h.price.toLocaleString("en-IN")}/mo`;
-  document.getElementById("d-room-types").textContent = "Contact for room details";
-  document.getElementById("d-vacancy").textContent = h.vacancies > 0 ? "Vacant" : "Full";
-
-  const amenitiesList = document.getElementById("d-amenities-list");
-  amenitiesList.innerHTML = "";
-
-  const labels = {
-    wifi: "WiFi Available",
-    gym: "Gym Available",
-    food: "Food Included",
-    laundry: "Laundry Available",
-    parking: "Parking"
-  };
-
-  Object.keys(labels).forEach((key) => {
-    const has = h.amenities[key];
-    const badge = document.createElement("span");
-    badge.className = `d-amenity-badge ${has ? "yes" : "no"}`;
-    badge.textContent = `${has ? "✓" : "✗"} ${labels[key]}`;
-    amenitiesList.appendChild(badge);
-  });
+  document.getElementById("d-distance").textContent = fmtDist(h.distance);
+  document.getElementById("d-capacity").textContent = h.vacancies ?? '—';
+  document.getElementById("d-overall-rating").textContent = h.rating ? `⭐ ${h.rating}` : '—';
 
   document.getElementById("drawer").classList.add("open");
   document.getElementById("drawer-overlay").classList.add("open");
+
+  // Fetch full hostel details
+  try {
+    const res = await fetch(`https://review-system-km73.onrender.com/api/hostels/${h.id}`);
+    const data = await res.json();
+    if (data.success) {
+      const hostel = data.hostel || {};
+      const roomTypes = data.room_types || [];
+      const facilities = data.facilities || {};
+      const rating = data.rating || {};
+
+      // Pricing & Rooms
+      const roomContainer = document.getElementById("d-room-types-list");
+      roomContainer.innerHTML = '';
+      if (roomTypes.length > 0) {
+        roomTypes.forEach(rt => {
+          const div = document.createElement('div');
+          div.style.cssText = 'display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--ge);font-size:13.5px;';
+          div.innerHTML = `<span>${rt.room_type}</span><span style="font-weight:700;">${fmtPrice(rt.monthly_rent)}${hostel.advance_amount ? ` · <span style="font-weight:400;color:var(--g6)">Adv: ₹${hostel.advance_amount}</span>` : ''}</span>`;
+          roomContainer.appendChild(div);
+        });
+      } else {
+        roomContainer.innerHTML = '<p style="color:var(--gc);font-size:13.5px;">Contact for room details</p>';
+      }
+
+      // Amenities — only show available
+      const amList = document.getElementById("d-amenities-list");
+      amList.innerHTML = '';
+      const amLabels = {
+        wifi: "WiFi", gym: "Gym", mess: "Food Included",
+        washing_machine: "Laundry", parking: "Parking",
+        water_bill_included: "Water Included", electricity_bill_included: "Electricity Included"
+      };
+      Object.keys(amLabels).forEach(key => {
+        if (facilities[key]) {
+          const badge = document.createElement("span");
+          badge.className = "d-amenity-badge yes";
+          badge.textContent = `✓ ${amLabels[key]}`;
+          amList.appendChild(badge);
+        }
+      });
+      if (!amList.children.length) {
+        amList.innerHTML = '<p style="color:var(--gc);font-size:13.5px;">No amenities listed</p>';
+      }
+
+      // Contact details
+      const phone = hostel.contact_number || '';
+      document.getElementById("d-phone").textContent = phone || 'Not provided';
+      document.getElementById("d-call-btn").href = phone ? `tel:${phone.replace(/\s+/g, '')}` : '#';
+      if (phone) {
+        const wa = phone.replace(/\s+/g, '').replace('+', '');
+        document.getElementById("d-wa-btn").href = `https://wa.me/${wa}?text=Hi,%20I'm%20interested%20in%20${encodeURIComponent(hostel.hostel_name || 'your hostel')}`;
+      }
+    }
+  } catch (e) {
+    console.error("Error fetching hostel details:", e);
+  }
+
+  // Fetch reviews
+  try {
+    const revRes = await fetch(`https://review-system-km73.onrender.com/api/reviews/${h.id}`);
+    const revData = await revRes.json();
+    const revList = document.getElementById("d-reviews-list");
+    if (revData.success && revData.reviews && revData.reviews.length > 0) {
+      revList.innerHTML = revData.reviews.slice(0, 5).map(r => `
+        <div style="padding:.6rem 0;border-bottom:1px solid var(--ge);">
+          <div style="font-weight:700;font-size:13px;">${r.reviewer_name}</div>
+          <div style="font-size:13px;color:var(--g4);margin-top:.2rem;">${r.review_text}</div>
+        </div>
+      `).join('');
+      if (revData.reviews.length > 5) {
+        revList.innerHTML += `<p style="font-size:12px;color:var(--gc);margin-top:.5rem;">+${revData.reviews.length - 5} more reviews</p>`;
+      }
+    } else {
+      revList.innerHTML = '<p style="color:var(--gc);font-size:13.5px;">No reviews yet</p>';
+    }
+  } catch (e) {
+    console.error("Error fetching reviews:", e);
+    document.getElementById("d-reviews-list").innerHTML = '<p style="color:var(--gc);font-size:13.5px;">Could not load reviews</p>';
+  }
 }
 function closeDrawer() {
   document.getElementById("drawer").classList.remove("open");

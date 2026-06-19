@@ -36,6 +36,7 @@ def get_hostels():
                 }), 400
 
         max_budget = request.args.get("max_budget")
+        max_distance = request.args.get("max_distance")
         wifi = request.args.get("wifi", "").lower()
         mess = request.args.get("mess", "").lower()
         parking = request.args.get("parking", "").lower()
@@ -107,11 +108,15 @@ def get_hostels():
                 gender
             )
 
-        # if vacant == "true":
-        #     query = query.gt(
-        #         "vacancies",
-        #         0
-        #     )
+        try:
+            if max_distance:
+                max_distance = float(max_distance)
+                query = query.lte("distance_from_college", max_distance)
+        except ValueError:
+            return jsonify({
+                "success": False,
+                "message": "Invalid max_distance value"
+            }), 400
 
         response = query.execute()
         hostels = []
