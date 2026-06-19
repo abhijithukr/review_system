@@ -812,7 +812,7 @@ function mapComparisonHostel(apiHostel) {
 
 async function loadHostelsForComparison() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/hostels");
+    const response = await fetch("https://review-system-km73.onrender.com/api/hostels");
     if (!response.ok) throw new Error("Failed to fetch hostels list");
     const data = await response.json();
     hostels = data.hostels.map(h => ({
@@ -922,7 +922,7 @@ async function runComparison(){
   if(!aKey || !bKey || aKey === bKey) return;
   
   try {
-    const response = await fetch(`http://127.0.0.1:5000/api/compare?hostel1=${aKey}&hostel2=${bKey}`);
+    const response = await fetch(`https://review-system-km73.onrender.com/api/compare?hostel1=${aKey}&hostel2=${bKey}`);
     if (!response.ok) throw new Error("Comparison request failed");
     const data = await response.json();
     if (!data.success) throw new Error(data.message || "Failed to compare");
@@ -1083,7 +1083,7 @@ async function openDetailsFromCompare(side) {
     document.getElementById("drawer-overlay").classList.add("open");
 
     // Fetch dynamic details
-    const response = await fetch(`http://127.0.0.1:5000/api/hostels/${h.id}`);
+    const response = await fetch(`https://review-system-km73.onrender.com/api/hostels/${h.id}`);
     if (!response.ok) throw new Error("Failed to fetch details");
     const data = await response.json();
     if (!data.success) throw new Error(data.message || "Failed to load details");

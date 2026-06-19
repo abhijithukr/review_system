@@ -776,7 +776,7 @@ async function applyFilters(page = 1){
 
     params.append("sort", sortMap[sortValue] || "distance");
 
-    const url = `http://127.0.0.1:5001/api/hostels?${params.toString()}`;
+    const url = `https://review-system-km73.onrender.com/api/hostels?${params.toString()}`;
     console.log("Fetching:", url);
 
     const response = await fetch(url);
