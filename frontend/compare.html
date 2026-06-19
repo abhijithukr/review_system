@@ -854,10 +854,9 @@ async function loadHostelsForComparison() {
 function buildOptions(excludeId) {
   let html = '<option value="">Select a hostel…</option>';
   hostels.forEach(h => {
-    if (h.id !== excludeId) {
-      if (h.id != excludeId) {
-        html += `<option value="${h.id}">${h.name} (${h.type})</option>`;
-      }
+    if (h.id != excludeId) {
+      html += `<option value="${h.id}">${h.name} (${h.type})</option>`;
+    }
   });
   return html;
 }
